@@ -2,8 +2,8 @@ const Product=require('../models/ProductsModels');
 
 exports.createProduct=async(req, res)=>{
     try{
-        const { nameProduct, priceProduct, describe, imageProduct, status}=req.body;
-        const newProduct=new Product({nameProduct, priceProduct, describe, imageProduct, status})
+        const { nameProduct, priceProduct, describe, imageProduct, status,  categoryId}=req.body;
+        const newProduct=new Product({nameProduct, priceProduct, describe, imageProduct, status,  categoryId})
         await newProduct.save();
        
         res.status(201).json({
@@ -41,11 +41,11 @@ exports.getProductById= async (req, res)=>{
 
 exports.updateProduct=async(req, res)=>{
     try{
-        const {nameProduct, priceProduct, describe, imageProduct, status}=req.body;
+        const {nameProduct, priceProduct, describe, imageProduct, status,  categoryId}=req.body;
         const product = await Product.findByIdAndUpdate(
             req.params.id,
-            {nameProduct, priceProduct, describe, imageProduct, status},
-            {new:true}
+            {nameProduct, priceProduct, describe, imageProduct, status,  categoryId},
+            {new:true},
         );
         if(!product){
             return res.status(404).json({message:'Product not found'});

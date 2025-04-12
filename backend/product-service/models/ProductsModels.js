@@ -1,19 +1,18 @@
 const mongoose = require('mongoose');
-
 const productSchema = new mongoose.Schema({
-    nameProduct: {
+    name: {
         type: String,
         required: true,
     },
-    priceProduct: {
-        type: Number, // Sửa Float thành Number
+    price: {
+        type: Number,
         required: true,
     },
     describe: {
         type: String,
         required: true,
     },
-    imageProduct: {
+    image: {
         type: String,
         required: true,
     },
@@ -21,10 +20,11 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
+    categoryId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true,
     },
-});
+},{ timestamps: true });
 
 module.exports = mongoose.model("Product", productSchema);
