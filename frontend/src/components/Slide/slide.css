@@ -1,0 +1,29 @@
+.slide__box{
+    width: 80%;
+    margin: 1.5rem auto;
+}
+.slide__left{
+    width: 60%;
+    margin-left: 2.8rem;
+} 
+.slide__right img{
+    width: 90%;
+    height: 48%;
+    padding: .1rem 1rem;
+    display: flex;
+}
+.slide__left .slick-dots {
+    position: absolute;
+    bottom: 10px; 
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    z-index: 1;
+}
+
+.slide__left {
+    position: relative; 
+}

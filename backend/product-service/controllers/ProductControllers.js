@@ -2,8 +2,8 @@ const Product=require('../models/ProductsModels');
 
 exports.createProduct=async(req, res)=>{
     try{
-        const { nameProduct, priceProduct, describe, imageProduct, status,  categoryId}=req.body;
-        const newProduct=new Product({nameProduct, priceProduct, describe, imageProduct, status,  categoryId})
+        const { name, price, describe, image, status,  categoryId}=req.body;
+        const newProduct=new Product({name, price, describe, image, status,  categoryId})
         await newProduct.save();
        
         res.status(201).json({
@@ -41,10 +41,10 @@ exports.getProductById= async (req, res)=>{
 
 exports.updateProduct=async(req, res)=>{
     try{
-        const {nameProduct, priceProduct, describe, imageProduct, status,  categoryId}=req.body;
+        const {name, price, describe, image, status,  categoryId}=req.body;
         const product = await Product.findByIdAndUpdate(
             req.params.id,
-            {nameProduct, priceProduct, describe, imageProduct, status,  categoryId},
+            {name, price, describe, image, status,  categoryId},
             {new:true},
         );
         if(!product){

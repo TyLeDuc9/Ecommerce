@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const addressSchema=new mongoose.Schema({
-    cityAddress:{
+    city:{
         type:String,
         required:true
     },
