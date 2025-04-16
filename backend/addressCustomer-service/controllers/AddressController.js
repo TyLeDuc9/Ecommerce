@@ -2,8 +2,8 @@ const Address = require('../models/AddressModel');
 
 exports.createAddress = async (req, res) => {
     try {
-        const { cityAddress, describe, customerId } = req.body;
-        const newAddress = new Address({ cityAddress, describe, customerId });
+        const { city, describe, customerId } = req.body;
+        const newAddress = new Address({ city, describe, customerId });
         await newAddress.save();
 
         res.status(201).json({
@@ -38,10 +38,10 @@ exports.getAddressById = async (req, res) => {
 
 exports.updateAddress = async (req, res) => {
     try {
-        const { cityAddress, describe, customerId } = req.body;
+        const { city, describe, customerId } = req.body;
         const address = await Address.findByIdAndUpdate(
             req.params.id,
-            { cityAddress, describe, customerId },
+            { city, describe, customerId },
             { new: true }
         );
 
@@ -70,3 +70,24 @@ exports.deleteAddress = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+exports.searchAddress = async (req, res) => {
+    try {
+        const {city} = req.query;
+        let query = {};
+        if (city && typeof city === 'string') {
+            query.city = { $regex: city, $options: 'i' }; 
+        }
+        const address = await Address.find(query);
+        res.status(200).json(address);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+exports.sortAddress=async(req, res)=>{
+    try{
+        const address=await Address.find().sort({city:1});
+        res.json(address);
+    }catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}

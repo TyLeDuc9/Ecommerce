@@ -1,5 +1,5 @@
 const Category = require('../models/CategoryModel');
-
+const Product = require('../../product-service/models/ProductsModels');
 // Tạo mới một danh mục
 exports.createCategory = async (req, res) => {
     try {
@@ -66,6 +66,10 @@ exports.updateCategory = async (req, res) => {
 exports.deleteCategory = async (req, res) => {
     try {
         const category = await Category.findByIdAndDelete(req.params.id);
+        await Product.updateMany(
+            { categoryId: categoryId },
+            { $set: { categoryId: null } }
+        );
         if (!category) {
             return res.status(404).json({ message: 'Category not found' });
         }

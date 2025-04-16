@@ -1,5 +1,5 @@
 const Customer = require('../models/CustomerModel.js');
-
+const Address = require('../../addressCustomer-service/models/AddressModel.js')
 exports.createCustomer = async (req, res) => {
     try {
         const { name, email, phone, birthday, gender } = req.body;
@@ -84,3 +84,27 @@ exports.deleteCustomer = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+exports.searchCustomer = async (req, res) => {
+    try {
+        const { name, phone } = req.query;
+        let query = {};
+        if (name && typeof name === 'string') {
+            query.name = { $regex: name, $options: 'i' }; 
+        }
+        if (phone && typeof phone === 'string') {
+            query.phone = { $regex: phone, $options: 'i' };
+        }
+        const customers = await Customer.find(query);
+        res.status(200).json(customers);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+exports.sortCustomer=async(req, res)=>{
+    try{
+        const customer=await Customer.find().sort({name:-1});
+        res.json(customer);
+    }catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
