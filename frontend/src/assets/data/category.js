@@ -63,17 +63,17 @@ const category=[
     {
         id:"09",
         name:"Thời trang nam",
-        img:category9,
+        img:category10,
     },
     {
         id:"10",
         name:"Thời trang nữ",
-        img:category10,
+        img:category9,
     },
     {
         id:"11",
         name:"Điện thoại",
-        img:category10,
+        img:category12,
     },
     {
         id:"12",
