@@ -1,0 +1,67 @@
+.topsearch__product {
+    width: 80%;
+    background-color: #fff;
+    margin: 0 auto;
+}
+
+
+
+.topsearch__title h4 {
+    text-transform: uppercase;
+    color: #f53d2d;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: .8rem;
+}
+
+.topsearch__all a {
+    color: #f53d2d;
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 1rem;
+    text-decoration: none;
+}
+
+.topsearch__list {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.topsearch-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-top: 1px solid #f5f5f5;
+    cursor: pointer;
+}
+
+.topsearch__img {
+    position: relative;
+}
+
+.top-badge {
+    position: absolute;
+    top: 0;
+    left: 0.5rem;
+    background-color: #ff5722;
+    color: white;
+    font-size: .6rem;
+    font-weight: bold;
+    padding: .3rem;
+    border-radius: 0 0 2rem .1rem;
+
+    z-index: 2;
+}
+
+.topsearch__img img {
+    width: 80%;
+    margin: 0 1.2rem;
+}
+
+.product-name {
+    margin-left: 1rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: rgb(109, 99, 99);
+}

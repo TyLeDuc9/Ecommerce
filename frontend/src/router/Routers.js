@@ -1,24 +1,48 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import {Home} from '../pages/Home';
-import {Login} from '../pages/Login';
-import {Seller} from '../pages/Seller';
-import {Support} from '../pages/Support'
-import {Register} from '../pages/Register';
-import { Dowload } from '../pages/Dowload';
+import { Home } from '../pages/Home';
+import { Register } from '../components/Register/Register';
+import { Login } from '../components/Login/Login';
+import { SellerRegister } from '../components/Register/SellerRegister';
+import { SellerLogin } from '../components/Login/SellerLogin';
+import { Header } from '../components/Header/Header';
 
 const Routers = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/home" />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/dowload" element={<Dowload />} />
-      <Route path="/seller" element={<Seller />} />
-      <Route path="/support" element={<Support />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/home" element={<><Header /><Home /></>} />
       <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} /> 
+      <Route path="/seller/register" element={<SellerRegister />} />
+      <Route path="/seller/login" element={<SellerLogin />} />
     </Routes>
   );
 };
 
 export default Routers;
+// import React from 'react';
+// import { Routes, Route, Navigate } from 'react-router-dom';
+// import { Home } from '../pages/Home';
+// import { Register } from '../components/Register/Register';
+// import { Login } from '../components/Login/Login';
+// import { SellerRegister } from '../components/Register/SellerRegister';
+// import { SellerLogin } from '../components/Login/SellerLogin';
+// import { Header } from '../components/Header/Header';
+
+// const Routers = () => {
+//   return (
+//     <>
+//       <Header />
+//       <Routes>
+//         <Route path="/" element={<Navigate to="/home" />} />
+//         <Route path="/home" element={<Home />} />
+//         <Route path="/register" element={<Register />} />
+//         <Route path="/login" element={<Login />} />
+//         <Route path="/seller/register" element={<SellerRegister />} />
+//         <Route path="/seller/login" element={<SellerLogin />} />
+//       </Routes></>
+//   );
+// };
+
+// export default Routers;

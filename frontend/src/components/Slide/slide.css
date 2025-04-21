@@ -46,8 +46,8 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 .slide__left .slick-prev {
-    left: 2px;
+    left: 0.125rem;
 }
 .slide__left .slick-next {
-    right: 2px;
+    right: 0.125rem;
 }

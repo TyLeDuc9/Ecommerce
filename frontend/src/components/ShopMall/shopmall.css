@@ -1,0 +1,72 @@
+.shopmall {
+    width: 80%;
+    margin: 1rem auto;
+    background-color: #fff;
+}
+
+.shopmall__title h4 {
+    text-transform: uppercase;
+    color: #f53d2d;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: .8rem;
+
+}
+
+.shopmall__lists {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    align-items: center;
+    margin-right: 12rem;
+}
+
+.shopmall__lists li {
+    padding: 0 2rem;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.shopmall__lists i {
+    color: #f53d2d;
+    margin-right: 0.5rem;
+}
+
+.shopmall__all a {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 400;
+    text-decoration: none;
+    margin-right: 0.9rem;
+}
+
+.shopmall__all a i {
+    border-radius: 50%;
+    padding: 0.2rem 0.4rem;
+    background-color: red;
+    font-size: 0.8rem;
+}
+.shopmall__container{
+    border-top: 1px solid #f5f5f5;
+    margin-top: 0.5rem;
+    display: flex;
+}
+.shopmall__logo img{
+    padding: 0.5rem 0;
+}
+.shopmall__store{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(4, 1fr);
+}
+.shopmall__brands-img img{
+    width: 80%;
+    cursor: pointer;
+}
+.shopmall__brands-name{
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin: 0 1.5rem;
+    color: #f53d2d;
+}

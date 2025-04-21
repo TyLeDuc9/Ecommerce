@@ -1,0 +1,36 @@
+.banner{
+    width: 80%;
+    margin: 1.5rem auto;
+
+} 
+.banner .slick-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.banner .slick-dots li button:before {
+    font-size: 0.5rem;
+    color: white;
+    opacity: 0.75;
+}
+.banner .slick-dots li.slick-active button:before {
+    color: #333;
+    opacity: 1;
+}
+
+.banner .slick-prev,
+.banner .slick-next {
+    z-index: 10;
+    width: 1.5rem;
+    height: 3rem;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.banner .slick-prev {
+    left: 0.125rem;
+}
+.banner .slick-next {
+    right: 1.8rem;
+}
