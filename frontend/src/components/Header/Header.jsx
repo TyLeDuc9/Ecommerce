@@ -2,16 +2,17 @@ import React from 'react';
 import { Col, Row } from 'antd';
 import { NavLink, Link } from 'react-router-dom';
 import './header.css';
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/logo/logo.png';
 
 export const Header = () => {
+  console.log("Header loaded");
   return (
     <header className='header'>
       <Row className='header__top' justify="space-between">
         <Col>
           <ul className='header__top-left d-flex align-items-center'>
             <li><Link to="/home">Trang chủ Shopee</Link></li>
-            <li><Link to="/seller">Trở thành Người bán</Link></li>
+            <li><Link to="/seller/register">Trở thành Người bán</Link></li>
             <li><Link to="/download">Tải ứng dụng</Link></li>
             <li>
               <span>Kết nối</span>

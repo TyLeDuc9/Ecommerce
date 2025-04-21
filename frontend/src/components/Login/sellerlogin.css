@@ -1,0 +1,173 @@
+    .loginSeller {
+    width: 100%;
+    background-color: #fff;
+}
+
+.loginSeller__header {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.loginSeller__header-box {
+    width: 80%;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.loginSeller__header-logo {
+    display: flex;
+    align-items: center;
+}
+
+.loginSeller__header-logo img {
+    width: 70px;
+    margin-right: 0.5rem;
+}
+
+.loginSeller__header-logo h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.loginSeller__container {
+    height: 80vh;
+    display: flex;
+    margin: 1rem 0;
+}
+
+.loginSeller__container p {
+    color: #888;
+    font-size: 1.5rem;
+    padding: 0.5rem 0;
+}
+
+.loginSeller form {
+    max-width: 400px;
+    height: 55vh;
+    margin: 5% auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    font-family: 'Helvetica Neue', sans-serif;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.loginSeller form span {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-align: center;
+    margin: 1rem;
+    color: #222;
+}
+
+.loginSeller input[type="text"],
+.loginSeller input[type="password"] {
+    width: 90%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 1rem 1.5rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.loginSeller input[type="text"]:focus,
+.loginSeller input[type="password"]:focus {
+    border-color: #ee4d2d;
+}
+
+.loginSeller .btn-submit {
+    width: 90%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    color: white;
+    text-transform: uppercase;
+    cursor: pointer;
+    background-color: #ee4d2d;
+    opacity: 0.4;
+    border: none;
+    margin: 1rem 1.5rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.loginSeller .btn-submit:hover {
+    opacity: 0.9;
+}
+
+.loginSeller__options {
+    display: flex;
+    justify-content: space-between;
+}
+
+.loginSeller__options span {
+    font-size: 0.7rem !important;
+    margin: 0 1.4rem !important;
+
+
+}
+
+.loginSeller .social-loginSeller {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.loginSeller .btn-facebook,
+.loginSeller .btn-google {
+    width: 40%;
+    cursor: pointer;
+    border: 1px solid gray;
+    display: flex;
+    margin: 0.5rem 2rem;
+    padding:0.5rem 2rem;
+    background-color: #fff;
+}
+
+.loginSeller .btn-facebook i,
+.loginSeller .btn-google i {
+    margin-right: 1rem;
+    font-size: 0.8rem;
+}
+
+.loginSeller .btn-facebook i {
+    color: blue;
+}
+
+.loginSeller .btn-google i {
+    color: #ee4d2d;
+}
+
+.loginSeller .terms,
+.loginSeller .already-account {
+    font-size: 0.9rem;
+    text-align: center;
+    color: #888;
+    margin: 1rem;
+}
+
+.loginSeller .terms a,
+.loginSeller .already-account a {
+    color: #ee4d2d;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.loginSeller .no-account {
+    font-size: 0.9rem;
+    text-align: center;
+    color: #888;
+    margin: 1rem;
+}
+
+.loginSeller .no-account a {
+    color: #ee4d2d;
+    text-decoration: none;
+    font-weight: 500;
+}
