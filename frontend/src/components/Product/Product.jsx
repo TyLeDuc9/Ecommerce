@@ -1,19 +1,19 @@
 import React from 'react';
-import './item.css';
+import './product.css';
 import productData from '../../assets/data/product';
 import { Button, Col, Row } from 'antd';
 
-export const Item = () => {
+export const Product = () => {
   return (
     <section className='product'>
       <Row className='product__title'>
-          <h4>Gợi ý hôm nay</h4>
+        <h4>Gợi ý hôm nay</h4>
       </Row>
       <Row>
         <Col span={24}>
           <div className='product__list'>
-            {productData.map((item, index) => (
-              <div key={index} className='product__item'>
+            {productData.map((item) => (
+              <div key={item.id} className='product__item'>
                 <div>
                   <img src={item.img} alt={item.name} className='product__item-img' />
                 </div>
@@ -22,12 +22,11 @@ export const Item = () => {
                   <span className='product__item-price'>{item.price}</span>
                 </div>
               </div>
-            ))} 
+            ))}
           </div>
         </Col>
       </Row>
-      <Button
-        className="product__btn">
+      <Button className="product__btn">
         Xem thêm
       </Button>
     </section>
