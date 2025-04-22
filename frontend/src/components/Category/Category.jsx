@@ -30,7 +30,7 @@ export const Category = () => {
                                     <div
                                         key={item.id}
                                         className='category__item'
-                                        onClick={() => navigate(`/products/${path}`)}
+                                        onClick={() => navigate(`/product/${path}`)}
                                     >
                                         <div className='category__item-img'>
                                             <img src={item.img} alt={item.name} />

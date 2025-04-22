@@ -102,7 +102,7 @@ const category=[
     },
     {
         id:"17",
-        name:"Đồ chơichơi",
+        name:"Đồ chơi",
         img:category17,
     },
     {

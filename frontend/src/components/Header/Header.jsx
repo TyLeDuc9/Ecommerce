@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Col, Row } from 'antd';
-import { NavLink, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; 
 import './header.css';
 import logo from '../../assets/images/logo/logo.png';
+import { useAppContext } from '../../context/AppContext';
 
 export const Header = () => {
-  console.log("Header loaded");
+
+  const navigate = useNavigate(); 
+
+
   return (
     <header className='header'>
       <Row className='header__top' justify="space-between">
@@ -38,7 +42,11 @@ export const Header = () => {
         </Col>
         <Col span={16}>
           <div className="header__search">
-            <input type="text" placeholder="Tìm sản phẩm, thương hiệu và tên shop" />
+            <input 
+              type="text" 
+              placeholder="Tìm sản phẩm, thương hiệu và tên shop"
+             
+            />
             <button><i className="fa-solid fa-magnifying-glass"></i></button>
           </div>
         </Col>
