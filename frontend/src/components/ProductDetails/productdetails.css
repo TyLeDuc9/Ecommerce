@@ -1,0 +1,154 @@
+.product__details {
+    width: 80%;
+    margin: 1rem auto;
+}
+
+.product__details-box {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.product__details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.product__details-img div {
+    padding: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 0.2rem;
+}
+
+.product__details-img div:hover {
+    border: 1px solid #ee4d2d;
+}
+
+.product__details-img {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.product__details-img img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
+.product__details-select img {
+    width: 500px;
+    height: 300px;
+    object-fit: contain;
+}
+
+.product__details-nav {
+    font-size: 0.9rem;
+    color: #333;
+
+}
+
+.product__details-nav a {
+    color: #0055aa;
+    text-decoration: none;
+}
+
+.product__details-container {
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    height: 60vh;
+    padding: 0.5rem 0;
+}
+
+.product__details-info p {
+    font-size: 1.2rem;
+
+
+}
+
+.product___details-review {
+    font-size: 1rem;
+    display: flex;
+    margin: 0.5rem 0;
+}
+
+.product___details-review i {
+    color: rgb(225, 225, 40);
+    font-size: 0.9rem;
+    padding: 0 0.1rem;
+}
+
+.product__details-benefit {
+    display: flex;
+    margin: 2rem 0.5rem
+}
+
+.product__details-price {
+    display: flex;
+    background-color: #fafafa;
+    align-items: center;
+    padding: 2rem 0;
+
+}
+
+.product__details-price p:first-child {
+    color: red;
+    font-size: 1.8rem;
+    padding: 0 0.5rem;
+}
+
+.product__details-price p:nth-child(2) {
+    color: gray;
+    font-size: 1.2rem;
+    padding: 0 1rem;
+    text-decoration: line-through;
+}
+
+.product__details-price p:last-child {
+    color: red;
+    font-weight: 400;
+    font-size: 0.8rem;
+    background-color: rgba(255, 0, 0, 0.1);
+
+}
+
+.product__details-count {
+    margin: 1rem 0;
+    display: flex;
+}
+
+.product__details-count p {
+    padding-right: 4rem;
+}
+
+.product__details-add button {
+    margin: 1rem 1rem 1rem 0;
+}
+
+.product__details-cart,
+.product__details-voucher {
+    padding: 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0.2rem;
+}
+
+.product__details-cart {
+    border: 1px solid #ee4d2d;
+    background-color: #fbebed;
+    color: #ee4d2d;
+}
+
+.product__details-voucher {
+    color: white;
+    background-color: #ee4d2d;
+    border: none;
+}
+
+.product__details-cart:hover,
+.product__details-voucher:hover {
+    opacity: 0.8;
+}

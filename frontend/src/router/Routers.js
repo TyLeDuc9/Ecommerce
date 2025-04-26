@@ -8,6 +8,7 @@ import { SellerLogin } from '../components/Login/SellerLogin';
 import { Header } from '../components/Header/Header';
 import { Footer } from '../components/Footer/Footer';
 import { ProductCategory } from '../components/ProductCategory/ProductCategory';
+import { ProductDetails } from '../components/ProductDetails/ProductDetails';
 
 const Routers = () => {
   return (
@@ -20,7 +21,7 @@ const Routers = () => {
         <Route path="/seller/register" element={<SellerRegister />} />
         <Route path="/seller/login" element={<SellerLogin />} />
         <Route path="/product/:category" element={<><Header/><ProductCategory /></>} />
-
+        <Route path="/product/:category/:id" element={<><Header/><ProductDetails /></>} />
       </Routes>
       <Footer />
       </>
