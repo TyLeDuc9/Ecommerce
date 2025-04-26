@@ -4,18 +4,9 @@ import { Col, Row } from 'antd';
 import './category.css';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../Header/Header';
-
+import { toSlug } from '../../utils/toSlug';
 export const Category = () => {
     const navigate = useNavigate();
-    const toSlug = (str) =>
-        str.normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // xóa dấu
-            .replace(/đ/g, "d") // xử lý riêng cho đ
-            .replace(/Đ/g, "d") // xử lý riêng cho Đ
-            .replace(/[^a-zA-Z0-9\s]/g, "") // xóa ký tự đặc biệt
-            .trim()
-            .toLowerCase()
-            .replace(/\s+/g, "-"); // thay khoảng trắng = dấu gạch
 
     return (
         <section className='category'>

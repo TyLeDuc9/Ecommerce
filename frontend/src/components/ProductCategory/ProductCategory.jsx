@@ -7,6 +7,7 @@ import { Banner } from '../Banner/Banner';
 import banner1 from '../../assets/images/banner/banner1.jpg';
 import banner2 from '../../assets/images/banner/banner2.jpg';
 import './productcategory.css';
+import { toSlug } from '../../utils/toSlug'; 
 
 const images = [banner1, banner2];
 
@@ -14,15 +15,6 @@ export const ProductCategory = () => {
     const { category } = useParams();
     const { product } = useAppContext();
 
-    const toSlug = (str) =>
-        str.normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/đ/g, "d")
-            .replace(/Đ/g, "d")
-            .replace(/[^a-zA-Z0-9\s]/g, "")
-            .trim()
-            .toLowerCase()
-            .replace(/\s+/g, "-");
 
     const searchCategory = categoryData.find(item => toSlug(item.name) === category);
     const filteredProduct = product.filter((item) => toSlug(item.category) === category);
@@ -39,7 +31,7 @@ export const ProductCategory = () => {
                             filteredProduct.map((item) => (
                                 <div key={item.id} className='product__category-item'>
                                     <div>
-                                        <img src={item.img} alt={item.name} className='product__category-img' />
+                                        <img src={item.img[0]} alt={item.name} className='product__category-img' />
                                     </div>
                                     <div className='product__category-info'>
                                         <p className='product__category-name'>{item.name}</p>

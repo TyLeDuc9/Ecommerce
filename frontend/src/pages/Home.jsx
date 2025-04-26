@@ -8,6 +8,7 @@ import { Banner } from '../components/Banner/Banner'
 import { Footer } from '../components/Footer/Footer'
 import { Product } from '../components/Product/Product'
 
+
 export const Home = () => {
 
   return (
@@ -17,7 +18,7 @@ export const Home = () => {
       <ShopMall />
       <TopSearchProduct />
       <Product />
-
+    
     </>
   )
 }

@@ -1,9 +1,14 @@
 import React from 'react';
 import './product.css';
-import productData from '../../assets/data/product';
 import { Button, Col, Row } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { toSlug } from '../../utils/toSlug';
+import { useAppContext } from '../../context/AppContext';  
 
 export const Product = () => {
+  const { product } = useAppContext(); 
+  const navigate = useNavigate();
+
   return (
     <section className='product'>
       <Row className='product__title'>
@@ -12,23 +17,25 @@ export const Product = () => {
       <Row>
         <Col span={24}>
           <div className='product__list'>
-            {productData.map((item) => (
-              <div key={item.id} className='product__item'>
+            {product.map((item) => (
+              <div
+                key={item.id}
+                className='product__item'
+                onClick={() => navigate(`/product/${toSlug(item.category)}/${item.id}`)}
+              >
                 <div>
-                  <img src={item.img} alt={item.name} className='product__item-img' />
+                  <img src={item.img[0]} alt={item.name} className='product__item-img' />
                 </div>
                 <div className='product__item-info'>
                   <p className='product__item-name'>{item.name}</p>
-                  <span className='product__item-price'>{item.price}</span>
+                  <span className='product__item-price'>{item.original_price}</span>
                 </div>
               </div>
             ))}
           </div>
         </Col>
       </Row>
-      <Button className="product__btn">
-        Xem thêm
-      </Button>
+      <Button className="product__btn">Xem thêm</Button>
     </section>
   );
 };
