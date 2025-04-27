@@ -8,7 +8,6 @@ const customerSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true
-
     },
     phone: {
         type: String,
@@ -22,11 +21,7 @@ const customerSchema = new mongoose.Schema({
     gender: {
         type: String,
         required: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-})
+    }
+},{ timestamps: true })
 
 module.exports = mongoose.model('Customer', customerSchema);

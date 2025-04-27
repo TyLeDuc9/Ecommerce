@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Customer = mongoose.model('Customer', require('../../customer-service/models/CustomerModel').schema);
 const addressSchema=new mongoose.Schema({
     city:{
         type:String,

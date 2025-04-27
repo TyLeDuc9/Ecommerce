@@ -1,4 +1,5 @@
 const Address = require('../models/AddressModel');
+const Customer = require('../../customer-service/models/CustomerModel');
 
 exports.createAddress = async (req, res) => {
     try {
@@ -17,7 +18,11 @@ exports.createAddress = async (req, res) => {
 
 exports.getAllAddresss = async (req, res) => {
     try {
-        const addresss = await Address.find();
+        const addresss = await Address.find().populate('customerId');
+        
+        if (addresss.length === 0) {
+            return res.status(404).json({ message: "No addresses found." });
+        }
         res.status(200).json(addresss);
     } catch (error) {
         res.status(500).json({ message: error.message });

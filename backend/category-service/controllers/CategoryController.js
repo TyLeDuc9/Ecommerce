@@ -1,10 +1,20 @@
 const Category = require('../models/CategoryModel');
 const Product = require('../../product-service/models/ProductsModels');
+const cloudinary = require('cloudinary').v2;
+
 // Tạo mới một danh mục
 exports.createCategory = async (req, res) => {
     try {
-        const { name, describe, image} = req.body;
-        const newCategory = new Category({ name, describe, image});
+        const { name, description } = req.body;
+        let imageUrl = '';  
+        if (req.file) {
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'categories'
+            });
+            imageUrl = result.secure_url; 
+        }
+
+        const newCategory = new Category({ name, description, image: imageUrl });
         await newCategory.save();
 
         res.status(201).json({
@@ -42,17 +52,24 @@ exports.getCategoryById = async (req, res) => {
 // Cập nhật danh mục
 exports.updateCategory = async (req, res) => {
     try {
-        const { name, describe, image } = req.body;
+        const { name, description } = req.body;
+        let updatedFields = { name, description };
+
+        if (req.file) {
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'categories'
+            });
+            updatedFields.image = result.secure_url; 
+        }
         const category = await Category.findByIdAndUpdate(
             req.params.id,
-            { name, describe, image },
+            updatedFields,
             { new: true }
         );
 
         if (!category) {
             return res.status(404).json({ message: 'Category not found' });
         }
-
         res.status(200).json({
             message: 'Category updated successfully',
             category,
@@ -66,25 +83,30 @@ exports.updateCategory = async (req, res) => {
 exports.deleteCategory = async (req, res) => {
     try {
         const category = await Category.findByIdAndDelete(req.params.id);
-        await Product.updateMany(
-            { categoryId: categoryId },
-            { $set: { categoryId: null } }
-        );
+
         if (!category) {
             return res.status(404).json({ message: 'Category not found' });
         }
+
+        // Cập nhật tất cả sản phẩm có categoryId này thành null
+        await Product.updateMany(
+            { categoryId: req.params.id },
+            { $set: { categoryId: null } }
+        );
 
         res.status(200).json({ message: 'Category deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
+// Tìm kiếm theo tên danh mục
 exports.searchCategoryName = async (req, res) => {
     try {
         const { name } = req.query;
-        const nameCode = name.toLowerCase(); 
+        const nameCode = name.toLowerCase();
         const category = await Category.find({
-            name: { $regex: nameCode, $options: 'i' } 
+            name: { $regex: nameCode, $options: 'i' }
         });
 
         res.status(200).json(category);
@@ -92,11 +114,13 @@ exports.searchCategoryName = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+// Sắp xếp danh mục
 exports.sortCategory = async (req, res) => {
     try {
         const category = await Category.find()
             .collation({ locale: 'vi', strength: 1 })
-            .sort({ name: -1 }); 
+            .sort({ name: -1 });
         res.json(category);
     } catch (error) {
         res.status(500).json({ message: error.message });
