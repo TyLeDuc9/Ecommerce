@@ -3,12 +3,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const productRoutes = require('./routes/ProductRoutes.js');
 const cors = require('cors');
+const { ConnectCloudinary } = require('./config/cloudinary');
 const app = express();
 
 
 app.use(express.json());
 app.use(cors());
 app.use('/api', productRoutes);
+ConnectCloudinary()
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URL = process.env.MONGO_URL;

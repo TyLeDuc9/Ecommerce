@@ -16,7 +16,7 @@ const MONGO_URL = process.env.MONGO_URL;
 
 mongoose
   .connect(MONGO_URL, {
-    useNewUrlParser: true, useUnifiedTopology: true, serverSelectionTimeoutMS: 5000, // Giảm thời gian chờ kết nối
+    useNewUrlParser: true, useUnifiedTopology: true, serverSelectionTimeoutMS: 5000, 
     socketTimeoutMS: 45000
   })
   .then(() => {

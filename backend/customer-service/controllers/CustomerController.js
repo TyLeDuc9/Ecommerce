@@ -1,5 +1,4 @@
 const Customer = require('../models/CustomerModel.js');
-const Address = require('../../addressCustomer-service/models/AddressModel.js')
 exports.createCustomer = async (req, res) => {
     try {
         const { name, email, phone, birthday, gender } = req.body;
