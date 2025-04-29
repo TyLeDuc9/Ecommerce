@@ -17,7 +17,7 @@ exports.createCart = async (req, res) => {
 
 exports.getAllCarts = async (req, res) => {
     try {
-        const carts = await Cart.find();
+        const carts = await Cart.find().populate('customerId').populate('productId');
         res.status(200).json(carts);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -26,7 +26,7 @@ exports.getAllCarts = async (req, res) => {
 
 exports.getCartById = async (req, res) => {
     try {
-        const cart = await Cart.findById(req.params.id);
+        const cart = await Cart.findById(req.params.id).populate('customerId').populate('productId');
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
         }

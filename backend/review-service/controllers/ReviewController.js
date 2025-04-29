@@ -1,9 +1,10 @@
 const Review=require('../models/ReviewModel');
-
+const Customer = require('../../customer-service/models/CustomerModel');
+const Product = require('../../product-service/models/ProductsModels');
 exports.createReview = async (req, res) => {
     try {
-        const { describe } = req.body;
-        const newReview = new Review({ describe});
+        const { describe, customerId, productId } = req.body;
+        const newReview = new Review({ describe, customerId, productId});
         await newReview.save();
 
         res.status(201).json({
@@ -17,7 +18,8 @@ exports.createReview = async (req, res) => {
 
 exports.getAllReviews = async (req, res) => {
     try {
-        const reviews = await Review.find();
+        const reviews = await Review.find().populate('customerId').populate('productId');
+        console.log(reviews);
         res.status(200).json(reviews);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -26,7 +28,7 @@ exports.getAllReviews = async (req, res) => {
 
 exports.getReviewById = async (req, res) => {
     try {
-        const review = await Review.findById(req.params.id);
+        const review = await Review.findById(req.params.id).populate('customerId').populate('productId');
         if (!review) {
             return res.status(404).json({ message: 'Review not found' });
         }
@@ -38,10 +40,10 @@ exports.getReviewById = async (req, res) => {
 
 exports.updateReview = async (req, res) => {
     try {
-        const { describe } = req.body;
+        const { describe, customerId, productId } = req.body;
         const review = await Review.findByIdAndUpdate(
             req.params.id,
-            { describe },
+            { describe, customerId, productId },
             { new: true }
         );
 

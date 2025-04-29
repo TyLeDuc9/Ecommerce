@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+const Customer = mongoose.model('Customer', require('../../customer-service/models/CustomerModel').schema);
+const Discount = mongoose.model('Discount', require('../../discount-service/models/DiscountModel').schema);
+const Cart = mongoose.model('Cart', require('../../cart-service/models/CartModel').schema);
+const Payment = mongoose.model('Payment', require('../../payment-service/models/PaymentModel').schema);
 const orderSchema = new mongoose.Schema({
     orderDate: {
         type: Date,

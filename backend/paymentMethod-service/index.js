@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use('/api', paymentMethodRoutes);
+app.use('/api/paymentMethod', paymentMethodRoutes);
 
 
 const PORT = process.env.PORT || 5000;

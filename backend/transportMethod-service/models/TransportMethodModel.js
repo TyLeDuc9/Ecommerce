@@ -12,5 +12,5 @@ const transportMethodSchema=mongoose.Schema({
         type: Number, 
         required: true,
       },
-})
+}, {timestamps:true})
 module.exports=mongoose.model('TransportMethod', transportMethodSchema);

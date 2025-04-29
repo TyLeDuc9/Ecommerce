@@ -9,7 +9,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use('/api', categoryRoutes);
+app.use('/api/category', categoryRoutes);
 ConnectCloudinary()
 
 

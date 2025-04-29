@@ -1,8 +1,9 @@
 require('dotenv').config(); 
 const express = require('express');
 const mongoose = require('mongoose');
-const userRoutes = require('./routes/UserRoutes');
-const sellerRoutes = require('./routes/SellerRoutes');
+// const userRoutes = require('./routes/UserRoutes');
+// const sellerRoutes = require('./routes/SellerRoutes');
+const authRoutes = require('./routes/AuthRoutes');
 const cors = require('cors');
 const app = express();
 const cookieParser = require('cookie-parser');
@@ -10,8 +11,9 @@ const cookieParser = require('cookie-parser');
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
-app.use('/api', userRoutes);
-app.use('/api', sellerRoutes);
+app.use('/api/auth', authRoutes);
+// app.use('/api/user', userRoutes);
+// app.use('/api/seller', sellerRoutes);
 
 
 const PORT = process.env.PORT || 5000;

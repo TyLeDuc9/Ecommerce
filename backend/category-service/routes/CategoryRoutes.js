@@ -3,13 +3,13 @@ const router = express.Router();
 const { upload } = require('../config/multer'); 
 const CategoryController = require('../controllers/CategoryController');
 
-router.post('/category/create', upload.single('image'), CategoryController.createCategory);
-router.get('/category/all', CategoryController.getAllCategories);
-router.get('/category/search', CategoryController.searchCategoryName);
-router.get('/category/sort', CategoryController.sortCategory);
-router.get('/category/:id', CategoryController.getCategoryById);
-router.put('/category/update/:id', upload.single('image'), CategoryController.updateCategory);
-router.delete('/category/delete/:id', CategoryController.deleteCategory);
+router.post('/create', upload.single('image'), CategoryController.createCategory);
+router.get('/all', CategoryController.getAllCategories);
+router.get('/search', CategoryController.searchCategoryName);
+router.get('/sort', CategoryController.sortCategory);
+router.get('/:id', CategoryController.getCategoryById);
+router.put('/update/:id', upload.single('image'), CategoryController.updateCategory);
+router.delete('/delete/:id', CategoryController.deleteCategory);
 
 module.exports = router;
 

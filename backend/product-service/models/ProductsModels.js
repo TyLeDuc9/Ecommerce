@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
-const Category = require('../../category-service/models/CategoryModel');
-const Customer = require('../../customer-service/models/CustomerModel');
-
-
+const Customer = mongoose.model('Customer', require('../../customer-service/models/CustomerModel').schema);
+const Category = mongoose.model('Category', require('../../category-service/models/CategoryModel').schema);
 const productSchema = new mongoose.Schema({
     name: {
         type: String,

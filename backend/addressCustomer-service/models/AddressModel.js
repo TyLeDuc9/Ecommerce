@@ -14,5 +14,5 @@ const addressSchema=new mongoose.Schema({
         ref: 'Customer',  
         required: true
     }
-})
+}, {timestamps:true})
 module.exports=mongoose.model('Address', addressSchema);
