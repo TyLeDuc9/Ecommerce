@@ -6,7 +6,7 @@ import { toSlug } from '../../utils/toSlug';
 import { useAppContext } from '../../context/AppContext';  
 
 export const Product = () => {
-  const { product } = useAppContext(); 
+  const { product , addToCart, updateCartItem, removeFromCart} = useAppContext(); 
   const navigate = useNavigate();
 
   return (

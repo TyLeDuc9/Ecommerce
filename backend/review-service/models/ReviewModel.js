@@ -1,13 +1,20 @@
 const mongoose = require('mongoose');
-const reviewSchema=new mongoose.Schema({
-    describe:{
-        type:String,
-        required:false
+const Customer = mongoose.model('Customer', require('../../customer-service/models/CustomerModel').schema);
+const Product = mongoose.model('Product', require('../../product-service/models/ProductsModels').schema);
+const reviewSchema = new mongoose.Schema({
+    describe: {
+        type: String,
+        required: false
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
+    customerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Customer',
+        required: true
     },
-
-})
-module.exports = mongoose.model("Review", reviewSchema);
+    productId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true
+    }
+}, { timestamps: true });
+module.exports = mongoose.model('Review', reviewSchema);

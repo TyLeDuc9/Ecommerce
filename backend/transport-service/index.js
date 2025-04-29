@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use('/api', transportRoutes);
+app.use('/api/transport', transportRoutes);
 
 
 const PORT = process.env.PORT || 5000;

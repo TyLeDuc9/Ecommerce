@@ -9,6 +9,7 @@ import { Header } from '../components/Header/Header';
 import { Footer } from '../components/Footer/Footer';
 import { ProductCategory } from '../components/ProductCategory/ProductCategory';
 import { ProductDetails } from '../components/ProductDetails/ProductDetails';
+import { Cart } from '../components/Cart/Cart';
 
 const Routers = () => {
   return (
@@ -22,6 +23,7 @@ const Routers = () => {
         <Route path="/seller/login" element={<SellerLogin />} />
         <Route path="/product/:category" element={<><Header/><ProductCategory /></>} />
         <Route path="/product/:category/:id" element={<><Header/><ProductDetails /></>} />
+        <Route path="/cart" element={<><Header/><Cart/></>} />
       </Routes>
       <Footer />
       </>

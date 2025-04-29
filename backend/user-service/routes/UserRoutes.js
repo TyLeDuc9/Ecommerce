@@ -3,8 +3,8 @@ const router = express.Router();
 const UserController = require('../controllers/UserController');
 const AutherUser=require('../middlewares/AutherUser')
 
-router.post('/user/register', UserController.register)
-router.post('/user/login', UserController.login)
-router.get('/user/is-auth', AutherUser.AutherUser, AutherUser.IsAuth)
-router.get('/user/logout', AutherUser.Logout, AutherUser.IsAuth)
+router.post('/register', UserController.register)
+router.post('/login', UserController.login)
+router.get('/is-auth', AutherUser.AutherUser, AutherUser.IsAuth)
+router.get('/logout', AutherUser.Logout, AutherUser.IsAuth)
 module.exports = router;
