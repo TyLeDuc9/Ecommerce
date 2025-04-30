@@ -10,6 +10,8 @@ import { Footer } from '../components/Footer/Footer';
 import { ProductCategory } from '../components/ProductCategory/ProductCategory';
 import { ProductDetails } from '../components/ProductDetails/ProductDetails';
 import { Cart } from '../components/Cart/Cart';
+import { Payment } from '../components/Payment/Payment';
+import { Seller } from '../components/Seller/Seller';
 
 const Routers = () => {
   return (
@@ -24,6 +26,8 @@ const Routers = () => {
         <Route path="/product/:category" element={<><Header/><ProductCategory /></>} />
         <Route path="/product/:category/:id" element={<><Header/><ProductDetails /></>} />
         <Route path="/cart" element={<><Header/><Cart/></>} />
+        <Route path="/payment" element={<><Header/><Payment/></>} />
+        <Route path="/seller" element={<Seller/>} />
       </Routes>
       <Footer />
       </>

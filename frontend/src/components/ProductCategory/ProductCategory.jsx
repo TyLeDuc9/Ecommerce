@@ -7,7 +7,7 @@ import { Banner } from '../Banner/Banner';
 import banner1 from '../../assets/images/banner/banner1.jpg';
 import banner2 from '../../assets/images/banner/banner2.jpg';
 import './productcategory.css';
-import { toSlug } from '../../utils/toSlug'; 
+import { toSlug } from '../../utils/toSlug';
 
 const images = [banner1, banner2];
 
@@ -23,7 +23,10 @@ export const ProductCategory = () => {
         <>
             <Banner images={images} />
             <section className='product__category'>
-                <Col className='navbar' span={4}>Navbar</Col>
+                <Col className='navbar' span={4}>
+                
+                </Col>
+
 
                 <Col span={20}>
                     <div className="filtered__products">

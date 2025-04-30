@@ -7,6 +7,7 @@ export const AppContext = createContext();
 export const AppContextProvider = ({ children }) => {
     const navigate = useNavigate();
     const [product, setProducts] = useState([]);
+    
     const [cartItems, setCartItems] = useState([]);
 
     const addToCart = (productId, quantity) => {
