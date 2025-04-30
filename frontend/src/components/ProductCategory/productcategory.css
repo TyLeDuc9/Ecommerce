@@ -6,8 +6,8 @@
 }
 .navbar{
     height: 60vh;
-    
 }
+
 .filtered__products {
     display: grid;
     grid-template-columns: repeat(5, 1fr);

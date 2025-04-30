@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './cart.css';
 
 export const Cart = () => {
     const { cartItems, product, setCartItems } = useAppContext();
+    const navigate = useNavigate();
 
     const [selectedItems, setSelectedItems] = useState([]);
 
-    const getProductById = (id) => {
-        return product.find((item) => item.id === id);
-    };
+    const getProductById = (id) => product.find((item) => item.id === id);
 
     const handleSelectItem = (productId) => {
         setSelectedItems((prevSelected) =>
@@ -53,6 +52,15 @@ export const Cart = () => {
             setCartItems((prev) => prev.filter(item => item.productId !== productId));
             setSelectedItems((prev) => prev.filter(id => id !== productId));
         }
+    };
+
+    const handleBuyNow = () => {
+        const updatedCart = cartItems.map(item => ({
+            ...item,
+            selected: selectedItems.includes(item.productId),
+        }));
+        setCartItems(updatedCart);
+        navigate('/payment');
     };
 
     const totalSelectedPrice = selectedItems.reduce((acc, productId) => {
@@ -128,7 +136,13 @@ export const Cart = () => {
 
                         <div className="footer-right">
                             <p>Tổng thanh toán: <span>đ{totalSelectedPrice.toLocaleString('vi-VN')}</span></p>
-                            <button className="btn-buy" disabled={selectedItems.length === 0}>Mua hàng</button>
+                            <button
+                                className="btn-buy"
+                                disabled={selectedItems.length === 0}
+                                onClick={handleBuyNow}
+                            >
+                                Mua hàng
+                            </button>
                         </div>
                     </div>
                 </>

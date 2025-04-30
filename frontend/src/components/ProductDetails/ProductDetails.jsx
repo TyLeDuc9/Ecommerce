@@ -19,14 +19,14 @@ export const ProductDetails = () => {
     return product.find((item) => item.id === Number(id));
   }, [product, id]);
 
-  useEffect(() => {
-    if (product.length > 0 && currentProduct) {
-      const related = product.filter(
-        (item) => item.category === currentProduct.category && item.id !== currentProduct.id
-      );
-      setRelatedProducts(related.slice(0, 5));
-    }
-  }, [product, currentProduct]);
+  // useEffect(() => {
+  //   if (product.length > 0 && currentProduct) {
+  //     const related = product.filter(
+  //       (item) => item.category === currentProduct.category && item.id !== currentProduct.id
+  //     );
+  //     setRelatedProducts(related.slice(0, 5));
+  //   }
+  // }, [product, currentProduct]);
 
   useEffect(() => {
     if (currentProduct) {

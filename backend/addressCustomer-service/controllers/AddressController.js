@@ -18,7 +18,7 @@ exports.createAddress = async (req, res) => {
 
 exports.getAllAddresss = async (req, res) => {
     try {
-        const addresss = await Address.find().populate('customerId');
+        const addresss = await Address.find().populate('customerId').limit(100);
         console.log(addresss); 
         if (addresss.length === 0) {
             return res.status(404).json({ message: "No addresses found." });
