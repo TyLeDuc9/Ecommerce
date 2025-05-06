@@ -8,10 +8,10 @@ import { SellerLogin } from '../components/Login/SellerLogin';
 import { Header } from '../components/Header/Header';
 import { Footer } from '../components/Footer/Footer';
 import { ProductCategory } from '../components/ProductCategory/ProductCategory';
-import { ProductDetails } from '../components/ProductDetails/ProductDetails';
 import { Cart } from '../components/Cart/Cart';
 import { Payment } from '../components/Payment/Payment';
 import { Seller } from '../components/Seller/Seller';
+import { ProductDetail } from '../components/Product/ProductDetail';
 
 const Routers = () => {
   return (
@@ -24,13 +24,13 @@ const Routers = () => {
         <Route path="/seller/register" element={<SellerRegister />} />
         <Route path="/seller/login" element={<SellerLogin />} />
         <Route path="/product/:category" element={<><Header/><ProductCategory /></>} />
-        <Route path="/product/:category/:id" element={<><Header/><ProductDetails /></>} />
         <Route path="/cart" element={<><Header/><Cart/></>} />
         <Route path="/payment" element={<><Header/><Payment/></>} />
         <Route path="/seller" element={<Seller/>} />
+        <Route path="/product/:category/:id" element={<><Header/><ProductDetail /></>} />
       </Routes>
       <Footer />
-      </>
+    </>
   );
 };
 
