@@ -83,3 +83,6 @@
     top: -0.4125rem;
     right: 6.5rem;
 }
+.btn-logout{
+    cursor: pointer;
+}

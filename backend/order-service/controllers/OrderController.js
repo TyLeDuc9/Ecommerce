@@ -15,24 +15,37 @@ exports.createOrder = async (req, res) => {
 };
 exports.getAllOrders = async (req, res) => {
     try {
-        const orders = await Order.find();
-        res.status(200).json(orders);
+      const orders = await Order.find()
+        .populate('discountId')
+        .populate('cartId')
+        .populate('customerId')
+        .populate('paymentId');
+        
+      res.status(200).json(orders);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error.message });
     }
-};
+  };
+  
 
-exports.getOrderById = async (req, res) => {
+  exports.getOrderById = async (req, res) => {
     try {
-        const order = await Order.findById(req.params.id);
-        if (!order) {
-            return res.status(404).json({ message: 'Order not found' });
-        }
-        res.status(200).json(order);
+      const order = await Order.findById(req.params.id)
+        .populate('discountId')
+        .populate('cartId')
+        .populate('customerId')
+        .populate('paymentId');
+  
+      if (!order) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
+  
+      res.status(200).json(order);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error.message });
     }
-};
+  };
+  
 
 exports.updateOrder = async (req, res) => {
     try {

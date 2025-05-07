@@ -26,7 +26,8 @@ const orderSchema = new mongoose.Schema({
     }],
     cartId: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Cart' 
+        ref: 'Cart',
+        required: true
     },
     customerId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -35,7 +36,8 @@ const orderSchema = new mongoose.Schema({
     },
     paymentId: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Payment' 
+        ref: 'Payment' ,
+        required: null
     }
     
 },{ timestamps: true });

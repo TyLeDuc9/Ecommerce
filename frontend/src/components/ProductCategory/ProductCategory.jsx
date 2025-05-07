@@ -1,7 +1,6 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
-import categoryData from '../../assets/data/category';
 import { Col } from 'antd';
 import { Banner } from '../Banner/Banner';
 import banner1 from '../../assets/images/banner/banner1.jpg';
@@ -15,31 +14,35 @@ export const ProductCategory = () => {
     const { category } = useParams();
     const { product } = useAppContext();
 
-
-    const searchCategory = categoryData.find(item => toSlug(item.name) === category);
-    const filteredProduct = product.filter((item) => toSlug(item.category) === category);
+    const filteredProduct = product.filter((item) =>
+        toSlug(item.categoryId?.name) === category
+    );
 
     return (
         <>
             <Banner images={images} />
             <section className='product__category'>
-                <Col className='navbar' span={4}>
-                
-                </Col>
-
-
+                <Col className='navbar' span={4}></Col>
                 <Col span={20}>
                     <div className="filtered__products">
                         {filteredProduct.length > 0 ? (
                             filteredProduct.map((item) => (
-                                <div key={item.id} className='product__category-item'>
-                                    <div>
-                                        <img src={item.img[0]} alt={item.name} className='product__category-img' />
-                                    </div>
-                                    <div className='product__category-info'>
-                                        <p className='product__category-name'>{item.name}</p>
-                                        <span className='product__category-price'>{item.price}</span>
-                                    </div>
+                                <div key={item._id} className='product__category-item'>
+                                    <Link to={`/product/${category}/${item._id}`}>
+                                        <div>
+                                            <img
+                                                src={item.image?.[0]}
+                                                alt={item.name}
+                                                className='product__category-img'
+                                            />
+                                        </div>
+                                        <div className='product__category-info'>
+                                            <p className='product__category-name'>{item.name}</p>
+                                            <span className='product__category-price'>
+                                                {item.price.toLocaleString()}₫
+                                            </span>
+                                        </div>
+                                    </Link>
                                 </div>
                             ))
                         ) : (

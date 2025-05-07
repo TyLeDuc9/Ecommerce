@@ -4,7 +4,7 @@ const discountSchema = new mongoose.Schema({
     discountType: { type: String, enum: ['percentage', 'fixed'], required: true },
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
-    count: { type: Number, default: 0 }
+    discountAmount: { type: Number, default: 0 }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Discount', discountSchema);

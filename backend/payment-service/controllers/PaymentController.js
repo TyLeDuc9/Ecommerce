@@ -2,8 +2,13 @@ const Payment = require('../models/PaymentModel');
 
 exports.createPayment = async (req, res) => {
     try {
-        const {  paymentDate,  amount,  paymentMethod, paymentStatus} = req.body;
-        const newPayment = new Payment({  paymentDate,  amount,  paymentMethod, paymentStatus});
+        const { paymentDate, amount, paymentMethodId, paymentStatusId } = req.body;
+        
+        if (amount <= 0) {
+            return res.status(400).json({ message: 'Amount must be greater than zero' });
+        }
+
+        const newPayment = new Payment({ paymentDate, amount, paymentMethodId, paymentStatusId });
         await newPayment.save();
 
         res.status(201).json({
@@ -11,37 +16,46 @@ exports.createPayment = async (req, res) => {
             payment: newPayment,
         });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message || 'Something went wrong' });
     }
 };
 
 exports.getAllPayments = async (req, res) => {
     try {
-        const payments = await Payment.find();
+        const payments = await Payment.find()
+            .populate('paymentMethodId')
+            .populate('paymentStatusId');
         res.status(200).json(payments);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message || 'Something went wrong' });
     }
 };
 
 exports.getPaymentById = async (req, res) => {
     try {
-        const payment = await Payment.findById(req.params.id);
+        const payment = await Payment.findById(req.params.id)
+            .populate('paymentMethodId')
+            .populate('paymentStatusId');
         if (!payment) {
             return res.status(404).json({ message: 'Payment not found' });
         }
         res.status(200).json(payment);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message || 'Something went wrong' });
     }
 };
 
 exports.updatePayment = async (req, res) => {
     try {
-        const {  paymentDate,  amount,  paymentMethod, paymentStatus} = req.body;
+        const { paymentDate, amount, paymentMethodId, paymentStatusId } = req.body;
+        
+        if (amount <= 0) {
+            return res.status(400).json({ message: 'Amount must be greater than zero' });
+        }
+
         const payment = await Payment.findByIdAndUpdate(
             req.params.id,
-            {  paymentDate,  amount,  paymentMethod, paymentStatus},
+            { paymentDate, amount, paymentMethodId, paymentStatusId },
             { new: true }
         );
 
@@ -54,7 +68,7 @@ exports.updatePayment = async (req, res) => {
             payment,
         });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message || 'Something went wrong' });
     }
 };
 
@@ -67,6 +81,6 @@ exports.deletePayment = async (req, res) => {
 
         res.status(200).json({ message: 'Payment deleted successfully' });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message || 'Something went wrong' });
     }
 };

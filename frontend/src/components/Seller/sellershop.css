@@ -1,0 +1,84 @@
+.shop-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: white;
+    font-family: Arial, sans-serif;
+    margin: 1rem auto;
+  }
+  
+  .shop-info-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .shop-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+  }
+  
+  .shop-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .shop-name {
+    font-size: 20px;
+    margin: 0;
+  }
+  
+  .shop-online {
+    font-size: 14px;
+    color: gray;
+    margin: 4px 0;
+  }
+  
+  .shop-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .chat-btn,
+  .view-btn {
+    padding: 6px 14px;
+    border: 1px solid #ee4d2d;
+    background-color: white;
+    color: #ee4d2d;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .chat-btn:hover,
+  .view-btn:hover {
+    background-color: #ffeee8;
+  }
+  
+  .shop-info-right {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    align-items: center;
+  }
+  
+  .shop-stat {
+    display: flex;
+    text-align: center;
+    padding: 0 3rem;
+  }
+  
+  .stat-title {
+    font-size: 0.9rem;
+    color: #888;
+    margin-left: 1rem;
+  }
+  
+  .stat-value {
+    font-size: 0.9rem;
+    color: #d0011b;
+    padding-left: 0.5rem;
+  }

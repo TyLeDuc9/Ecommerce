@@ -1,39 +1,36 @@
 import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
 import './seller.css';
 
 export const Seller = () => {
   return (
-    <div className="seller-container">
-      <aside className="seller-sidebar">
-        <h2>Seller Center</h2>
+    <div className="seller-layout">
+
+      <div className="seller-sidebar">
+        <h2>Kênh Người Bán</h2>
         <ul>
-          <li>Dashboard</li>
-          <li>Quản lý sản phẩm</li>
-          <li>Đơn hàng</li>
-          <li>Doanh thu</li>
-          <li>Thiết lập cửa hàng</li>
+          <li><Link to="/seller/orders">Đơn hàng</Link></li>
+          <li><Link to="/seller/addProducts">Thêm sản phẩm</Link></li>
+          <li><Link to="/seller/revenue">Doanh thu</Link></li>
+          <li><Link to="/seller/settings">Cài đặt</Link></li>
         </ul>
-      </aside>
+      </div>
 
-      <main className="seller-main">
-        <h1>Chào mừng đến với Kênh Người Bán</h1>
-        <p>Hãy bắt đầu quản lý cửa hàng và đơn hàng của bạn tại đây.</p>
+  
+      <div className="seller-main">
 
-        <div className="seller-stats">
-          <div className="stat-card">
-            <h3>Sản phẩm</h3>
-            <p>12</p>
-          </div>
-          <div className="stat-card">
-            <h3>Đơn hàng hôm nay</h3>
-            <p>5</p>
-          </div>
-          <div className="stat-card">
-            <h3>Doanh thu hôm nay</h3>
-            <p>₫1.200.000</p>
+        <div className="seller-header">
+          <span>Xin chào, Seller!</span>
+          <div className="seller-header-actions">
+            <i className="fa fa-bell"></i>
+            <img src="/avatar.jpg" alt="avatar" className="seller-avatar" />
           </div>
         </div>
-      </main>
+
+        <div className="seller-content">
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 };

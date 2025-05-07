@@ -1,12 +1,13 @@
-import React from 'react';
-import categoryData from '../../assets/data/category';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Col, Row } from 'antd';
 import './category.css';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../Header/Header';
 import { toSlug } from '../../utils/toSlug';
+import { useAppContext } from '../../context/AppContext';
 export const Category = () => {
     const navigate = useNavigate();
+    const { categories } = useAppContext(); 
 
     return (
         <section className='category'>
@@ -14,23 +15,21 @@ export const Category = () => {
             <Row>
                 <Col span={24}>
                     <div className='category__list'>
-                        {
-                            categoryData.map((item) => {
-                                const path = toSlug(item.name);
-                                return (
-                                    <div
-                                        key={item.id}
-                                        className='category__item'
-                                        onClick={() => navigate(`/product/${path}`)}
-                                    >
-                                        <div className='category__item-img'>
-                                            <img src={item.img} alt={item.name} />
-                                        </div>
-                                        <span>{item.name}</span>
+                        {categories.map((item) => {
+                            const path = toSlug(item.name);
+                            return (
+                                <div
+                                    key={item._id}
+                                    className='category__item'
+                                    onClick={() => navigate(`/product/${path}`)} 
+                                >
+                                    <div className='category__item-img'>
+                                        <img src={item.image} alt={item.name} />
                                     </div>
-                                );
-                            })
-                        }
+                                    <span>{item.name}</span>
+                                </div>
+                            );
+                        })}
                     </div>
                 </Col>
             </Row>

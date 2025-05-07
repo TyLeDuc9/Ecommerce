@@ -27,7 +27,7 @@ export const PurchaseBenefits = () => {
                                 </div>
                             </li>
                             <li>
-                                <i class="fa-solid fa-shield-halved icon-red"></i>
+                                <i className="fa-solid fa-shield-halved icon-red"></i>
                                 <div>
                                     <strong>Chính hãng 100%:</strong> Nhận lại gấp đôi số tiền mà bạn đã thanh toán cho sản phẩm không chính hãng từ Shopee Mall.
                                 </div>

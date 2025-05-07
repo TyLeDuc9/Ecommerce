@@ -52,9 +52,9 @@
 }
 
 .register form {
-    max-width:400px;
-    height: 55vh;
-    margin: 5% auto;
+    max-width: 400px;
+    height: 65vh;
+    margin: 3rem auto;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
@@ -70,7 +70,7 @@
     color: #222;
 }
 
-.register input[type="text"] {
+.form-group input{
     width: 90%;
     padding: 0.5rem;
     font-size: 1rem;
@@ -81,7 +81,7 @@
     transition: border-color 0.3s;
 }
 
-.register input[type="text"]:focus {
+.form-group input:focus {
     border-color: #ee4d2d;
 }
 
@@ -96,7 +96,7 @@
     background-color: #ee4d2d;
     opacity: 0.4;
     border: none;
-    margin: 1rem 1.5rem;
+    margin: 0.2rem 1.5rem;
     outline: none;
     transition: border-color 0.3s;
 }

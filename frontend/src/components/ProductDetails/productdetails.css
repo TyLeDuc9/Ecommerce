@@ -1,6 +1,7 @@
 .product__details {
     width: 80%;
     margin: 1rem auto;
+    background-color: #d9d9d9;
 }
 
 .product__details-box {
@@ -128,24 +129,10 @@
 
 .product__details-price p:first-child {
     color: red;
-    font-size: 1.8rem;
+    font-size: 2rem;
     padding: 0 0.5rem;
 }
 
-.product__details-price p:nth-child(2) {
-    color: gray;
-    font-size: 1.2rem;
-    padding: 0 1rem;
-    text-decoration: line-through;
-}
-
-.product__details-price p:last-child {
-    color: red;
-    font-weight: 400;
-    font-size: 0.8rem;
-    background-color: rgba(255, 0, 0, 0.1);
-
-}
 
 .product__details-count {
     margin: 1rem 0;

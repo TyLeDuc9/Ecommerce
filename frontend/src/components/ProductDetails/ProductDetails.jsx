@@ -1,72 +1,79 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import './productdetails.css';
-import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Col } from 'antd';
-import { toSlug } from '../../utils/toSlug';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { useAppContext } from '../../context/AppContext';
 import { PurchaseBenefits } from '../PurchaseBenefits/PurchaseBenefits';
+import { toSlug } from '../../utils/toSlug';
 
 export const ProductDetails = () => {
-  const navigate = useNavigate();
-  const { product, addToCart } = useAppContext();
   const { id } = useParams();
-
-  const [thumbnail, setThumbnail] = useState(null);
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
-  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [thumbnail, setThumbnail] = useState(null);
 
-  const currentProduct = useMemo(() => {
-    return product.find((item) => item.id === Number(id));
-  }, [product, id]);
-
-  // useEffect(() => {
-  //   if (product.length > 0 && currentProduct) {
-  //     const related = product.filter(
-  //       (item) => item.category === currentProduct.category && item.id !== currentProduct.id
-  //     );
-  //     setRelatedProducts(related.slice(0, 5));
-  //   }
-  // }, [product, currentProduct]);
+  const { addToCart } = useAppContext();
 
   useEffect(() => {
-    if (currentProduct) {
-      setThumbnail(currentProduct?.img?.[0] || null);
-    }
-  }, [currentProduct]);
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.get(`http://localhost:4003/api/product/${id}`);
+        setProduct(res.data);
+      } catch (error) {
+        console.error('Error fetching product:', error);
+        navigate('/not-found');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [id, navigate]);
 
-  if (!currentProduct) {
-    return <div>Đang tải sản phẩm...</div>;
-  }
-
-  const handleIncrease = () => {
-    if (quantity < currentProduct.stock_quantity) {
-      setQuantity(prev => prev + 1);
+  useEffect(() => {
+    if (product) {
+      setThumbnail(product?.image?.[0] || null);
     }
-  };
-
-  const handleDecrease = () => {
-    if (quantity > 1) {
-      setQuantity(prev => prev - 1);
-    }
-  };
+  }, [product]);
 
   const handleAddToCart = () => {
-    addToCart(currentProduct.id, quantity); 
-  };
-  
+    if (!product) return;
 
-  const handleBuyNow = () => {
-    addToCart(currentProduct.id, quantity); 
-    navigate("/cart");
+    if (quantity <= 0 || quantity > product.quantity) {
+      alert(` Số lượng phải từ 1 đến ${product.quantity}`);
+      return;
+    }
+
+    addToCart(product, quantity);
+
   };
+
+  const handleQuantityChange = (e) => {
+    const val = parseInt(e.target.value);
+    if (!isNaN(val)) {
+      if (val < 1) {
+        setQuantity(1);
+      } else if (val > product.quantity) {
+        setQuantity(product.quantity);
+        alert(` Chỉ còn ${product.quantity} sản phẩm trong kho`);
+      } else {
+        setQuantity(val);
+      }
+    }
+  };
+
+  if (loading) return <p>Đang tải...</p>;
+  if (!product) return <p>Không tìm thấy sản phẩm.</p>;
 
   return (
     <div className="product__details">
       <p className="product__details-nav">
         <Link to="/">Trang chủ</Link> /
-        <Link to="/product">Sản phẩm</Link> /
-        <Link to={`/product/${toSlug(currentProduct.category)}`}>{currentProduct.category}</Link> /
-        <span className="highlight">{currentProduct.name}</span>
+        <Link to="/">Sản phẩm</Link> /
+        <Link to={`/product/${toSlug(product.categoryId.name)}`}>{product.categoryId.name}</Link> /
+        <span className="highlight">{product.name}</span>
       </p>
 
       <section className="product__details-container">
@@ -77,9 +84,9 @@ export const ProductDetails = () => {
                 <img src={thumbnail} alt="Selected product" />
               </div>
               <div className="product__details-img">
-                {currentProduct.img.map((image, index) => (
-                  <div key={index} onClick={() => setThumbnail(image)}>
-                    <img src={image} alt={`Thumbnail ${index + 1}`} />
+                {product.image.map((img, index) => (
+                  <div key={index} onClick={() => setThumbnail(img)}>
+                    <img src={img} alt={`Thumbnail ${index + 1}`} />
                   </div>
                 ))}
               </div>
@@ -89,17 +96,14 @@ export const ProductDetails = () => {
 
         <Col span={14}>
           <div className="product__details-info">
-            <p>{currentProduct.name}</p>
+            <p>{product.name}</p>
           </div>
 
           <div className="product___details-review">
-            <p>{currentProduct.rating}</p>
             <div>
-              <i className="fa-solid fa-star"></i>
-              <i className="fa-solid fa-star"></i>
-              <i className="fa-solid fa-star"></i>
-              <i className="fa-solid fa-star"></i>
-              <i className="fa-solid fa-star"></i>
+              {[...Array(5)].map((_, i) => (
+                <i className="fa-solid fa-star" key={i}></i>
+              ))}
             </div>
           </div>
 
@@ -109,23 +113,31 @@ export const ProductDetails = () => {
           </div>
 
           <div className="product__details-price">
-            <p>đ{currentProduct.discounted_price}</p>
-            <p>đ{currentProduct.original_price}</p>
-            <p>{currentProduct.discount_percent}%</p>
+            <p>đ{product.price}</p>
           </div>
 
           <div className="product__details-count">
             <p>Số Lượng:</p>
             <div className="quantity-control">
-              <button onClick={handleDecrease}>-</button>
+              <button onClick={() => quantity > 1 && setQuantity(quantity - 1)}>-</button>
               <input
-                type="text"
+                type="number"
                 value={quantity}
-                readOnly
+                onChange={handleQuantityChange}
+                min="1"
+                max={product.quantity}
               />
-              <button onClick={handleIncrease}>+</button>
+              <button
+                onClick={() => {
+                  if (quantity < product.quantity) {
+                    setQuantity(quantity + 1);
+                  } else {
+                    alert(` Chỉ còn ${product.quantity} sản phẩm trong kho`);
+                  }
+                }}
+              >+</button>
             </div>
-            <p>{currentProduct.stock_quantity} <span>sản phẩm có sẵn</span></p>
+            <p>{product.quantity} <span>Sản phẩm {product.status}</span></p>
           </div>
 
           <div className="product__details-add">
@@ -133,8 +145,8 @@ export const ProductDetails = () => {
               <i className="fa-solid fa-cart-shopping"></i>
               Thêm vào giỏ hàng
             </button>
-            <button className="product__details-voucher" onClick={handleBuyNow}>
-              Mua với Voucher {currentProduct.discounted_price}
+            <button className="product__details-voucher">
+              Mua với Voucher {product.discounted_price}
             </button>
           </div>
         </Col>
@@ -142,4 +154,3 @@ export const ProductDetails = () => {
     </div>
   );
 };
-

@@ -1,19 +1,33 @@
 const Cart = require('../models/CartModel');
 
+
 exports.createCart = async (req, res) => {
     try {
-        const { sumCart, productId, customerId } = req.body;
-        const newCart = new Cart({ sumCart, productId, customerId });
-        await newCart.save();
-
-        res.status(201).json({
-            message: 'Cart created successfully',
-            cart: newCart,
+      const { quantity, productId, customerId } = req.body;
+      const existingCart = await Cart.findOne({ customerId, productId });
+    
+  
+      if (existingCart) {
+        existingCart.quantity += quantity;
+        await existingCart.save();
+  
+        return res.status(200).json({
+          message: 'Đã cập nhật số lượng sản phẩm trong giỏ',
+          cart: existingCart,
         });
+      }
+      const newCart = new Cart({ quantity, productId, customerId });
+      await newCart.save();
+  
+      res.status(201).json({
+        message: 'Giỏ hàng đã được tạo thành công',
+        cart: newCart,
+      });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+      console.error(error);
+      res.status(500).json({ message: error.message });
     }
-};
+  };
 
 exports.getAllCarts = async (req, res) => {
     try {
@@ -38,10 +52,10 @@ exports.getCartById = async (req, res) => {
 
 exports.updateCart = async (req, res) => {
     try {
-        const { sumCart, productId, customerId  } = req.body;
+        const { quantity, productId, customerId  } = req.body;
         const cart = await Cart.findByIdAndUpdate(
             req.params.id,
-            { sumCart, productId, customerId },
+            { quantity, productId, customerId },
             { new: true }
         );
 
