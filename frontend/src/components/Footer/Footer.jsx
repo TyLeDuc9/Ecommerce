@@ -1,14 +1,14 @@
 import React from "react";
 import "./footer.css";
-import pay1 from '../../assets/images/payments/pay1.png'
-import pay2 from '../../assets/images/payments/pay2.png'
-import pay3 from '../../assets/images/payments/pay3.png'
-import shipped1 from '../../assets/images/shipped/shipped1.png'
-import shipped2 from '../../assets/images/shipped/shipped2.png'
-import shipped3 from '../../assets/images/shipped/shipped3.png'
-import download1 from '../../assets/images/download/download1.png'
-import download2 from '../../assets/images/download/download2.png'
-import qr1 from '../../assets/images/download/qr1.png'
+import pay1 from "../../assets/images/payments/pay1.png";
+import pay2 from "../../assets/images/payments/pay2.png";
+import pay3 from "../../assets/images/payments/pay3.png";
+import shipped1 from "../../assets/images/shipped/shipped1.png";
+import shipped2 from "../../assets/images/shipped/shipped2.png";
+import shipped3 from "../../assets/images/shipped/shipped3.png";
+import download1 from "../../assets/images/download/download1.png";
+import download2 from "../../assets/images/download/download2.png";
+import qr1 from "../../assets/images/download/qr1.png";
 export const Footer = () => {
   return (
     <footer className="footer">
@@ -91,24 +91,45 @@ export const Footer = () => {
           <h4>ĐƠN VỊ VẬN CHUYỂN</h4>
           <div className="shipping-logos">
             {/* Thêm các logo vận chuyển */}
-            <img src={shipped1}  alt="Logo 1" />
+            <img src={shipped1} alt="Logo 1" />
             <img src={shipped2} alt="Logo 2" />
             <img src={shipped3} alt="Logo 3" />
           </div>
         </div>
         <div className="footer-section">
           <h4>THEO DÕI SHOPEE</h4>
-          <ul>
-            <li>
-              <a href="https://facebook.com">Facebook</a>
-            </li>
-            <li>
-              <a href="https://instagram.com">Instagram</a>
-            </li>
-            <li>
-              <a href="https://linkedin.com">LinkedIn</a>
-            </li>
-          </ul>
+          <div className="social-logos">
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"
+                alt="Facebook"
+              />
+            </a>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png"
+                alt="Instagram"
+              />
+            </a>
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png"
+                alt="LinkedIn"
+              />
+            </a>
+          </div>
         </div>
         <div className="footer-section">
           <h4>TẢI ỨNG DỤNG SHOPEE</h4>

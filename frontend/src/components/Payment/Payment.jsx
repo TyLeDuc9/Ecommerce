@@ -4,11 +4,11 @@ import './payment.css';
 import { useAppContext } from '../../context/AppContext';
 
 export const Payment = () => {
-    const { cartItems, product } = useAppContext();
+    const { cartItems, products } = useAppContext();
     const [paymentMethod, setPaymentMethod] = useState('cod');
 
     const selectedItems = cartItems.filter(item => item.selected);
-    const getProductById = (id) => product.find((p) => p.id === id);
+    const getProductById = (id) => products.find((p) => p.id === id);
 
     const totalPrice = selectedItems.reduce((acc, item) => {
         const prod = getProductById(item.productId);
