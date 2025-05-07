@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Row, Col, Button, Carousel } from "antd";
+import { Row, Col, Button, Carousel, Statistic } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
 import axios from "axios";
 import "./productDetail.css"; // Tạo file CSS riêng cho trang chi tiết
 
@@ -43,7 +44,7 @@ export const ProductDetail = () => {
 
       <Row gutter={[24, 24]}>
         <Col xs={24} md={12}>
-          <Carousel autoplay>
+          <Carousel autoplay autoplaySpeed={1000}>
             {product.image.map((img, index) => (
               <div key={index}>
                 <img
@@ -63,6 +64,16 @@ export const ProductDetail = () => {
               {product.price.toLocaleString("vi-VN")} đ
             </div>
             <div className="product-status">Trạng thái: {product.status}</div>
+            
+            {/* Hiển thị số lượt xem */}
+            <div className="product-views">
+              <Statistic 
+                value={product.views || 0} 
+                prefix={<EyeOutlined />} 
+                suffix="lượt xem"
+              />
+            </div>
+            
             <div className="product-description">
               <h3>Mô tả sản phẩm</h3>
               <p>{product.describe}</p>
