@@ -7,7 +7,7 @@ export const AppContext = createContext();
 export const AppContextProvider = ({ children }) => {
   const [customer, setCustomer] = useState(null);
   const [seller, setSeller] = useState(null);
-  const [product, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
@@ -23,14 +23,17 @@ export const AppContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (cartItems.length > 0) {
-      localStorage.setItem('cartItems', JSON.stringify(cartItems)); 
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    } else {
+      localStorage.removeItem('cartItems');
     }
-  }, [cartItems]); 
+  }, [cartItems]);
+   
 
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/api/category/all');
+      const res = await axios.get('http://localhost:3001/api/category/all')
       setCategories(res.data || []);
     } catch (error) {
       console.error('Lỗi khi lấy danh mục:', error.message);
@@ -106,7 +109,7 @@ export const AppContextProvider = ({ children }) => {
 
   const value = {
     navigate,
-    product,
+    products,
     cartItems,
     setCartItems,
     addToCart,

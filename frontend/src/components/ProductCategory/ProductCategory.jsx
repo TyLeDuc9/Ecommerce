@@ -12,9 +12,9 @@ const images = [banner1, banner2];
 
 export const ProductCategory = () => {
     const { category } = useParams();
-    const { product } = useAppContext();
+    const { products } = useAppContext();
 
-    const filteredProduct = product.filter((item) =>
+    const filteredProduct = products.filter((item) =>
         toSlug(item.categoryId?.name) === category
     );
 

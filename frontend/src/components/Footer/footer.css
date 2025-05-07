@@ -13,13 +13,11 @@
   width: 80%;
 }
 
-
 .footer-section h4 {
   font-size: 0.8rem;
   margin-bottom: 10px;
   color: #000;
 }
-
 
 .footer-section ul li {
   margin-bottom: 0.6rem;
@@ -34,10 +32,10 @@
 .footer-section ul li a:hover {
   color: #007bff;
 }
-.app-download{
+.app-download {
   display: flex;
 }
-.app-links img{
+.app-links img {
   display: flex;
   padding: 0.2rem;
 }
@@ -53,4 +51,20 @@
   margin-top: 20px;
   border-top: 1px solid #ddd;
   padding-top: 10px;
+}
+
+.social-logos {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-logos a img {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.3s ease;
+}
+
+.social-logos a img:hover {
+  transform: scale(1.1);
 }
