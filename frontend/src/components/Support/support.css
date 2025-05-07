@@ -1,0 +1,79 @@
+.support__container{
+    background-color: black;
+    height: 100vh;
+    
+}
+.support__container-header{
+    width: 80%;
+    display: flex;
+    margin: 0 auto;
+    padding: 1rem;
+
+}
+.support__container-header h1{
+    color: red;
+    font-size: 1.5rem;
+    padding: 1.5rem;
+}
+.support__container-logo img{
+    width: 4rem;  
+    cursor: pointer;
+}
+.support__container-search {
+    background-color: #f53d2d;
+    height: 30vh;
+    width: 100%;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    
+    color: white;
+}
+.support__container-search p{
+    font-size: 2rem;
+}
+.support__container-searchInput {
+    display: flex;
+    margin-top: 1rem;
+    position: relative;
+}
+
+.support__container-searchInput input {
+    padding: 1rem 1rem;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    width: 40rem;
+    outline: none;
+    background-color: black;
+}
+
+.support__container-searchInput button {
+    padding:.9rem 1rem;
+    border: none;
+    background-color: #f53d2d;
+    color: white    ;
+    cursor: pointer;
+    position: absolute;
+    right:0.2rem;
+    top: 3%;
+    border: 4px;
+}
+.support__container-searchInput button:hover{
+    opacity: 0.9;
+}
+.support__container-question{
+    color: white;
+    width: 80%;
+    margin: 2rem auto;
+}
+.support__container-question span{
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 0.5rem 0;
+}
+.support__container-question li{
+    font-size: 1rem;
+    padding: 0.5rem;
+}

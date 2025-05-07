@@ -1,20 +1,21 @@
 require('dotenv').config(); 
+console.log('JWT_SECRET:', process.env.JWT_SECRET); 
 const express = require('express');
 const mongoose = require('mongoose');
-// const userRoutes = require('./routes/UserRoutes');
-// const sellerRoutes = require('./routes/SellerRoutes');
 const authRoutes = require('./routes/AuthRoutes');
 const cors = require('cors');
-const app = express();
 const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+
+const app = express();
 
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 app.use('/api/auth', authRoutes);
-// app.use('/api/user', userRoutes);
-// app.use('/api/seller', sellerRoutes);
 
+// Kiểm tra giá trị biến JWT_SECRET từ .env
+console.log('JWT_SECRET:', process.env.JWT_SECRET);
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URL = process.env.MONGO_URL;

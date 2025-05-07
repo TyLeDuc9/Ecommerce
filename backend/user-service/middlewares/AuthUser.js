@@ -1,9 +1,11 @@
+require('dotenv').config(); 
 const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
+console.log("JWT Secret:", JWT_SECRET); 
 
-// Middleware: Xác thực người dùng (kiểm tra token)
 const authenticate = (req, res, next) => {
   const authHeader = req.headers.authorization;
-
+  console.log("Authorization header:", authHeader);
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ message: 'No token provided' });
   }
@@ -11,13 +13,18 @@ const authenticate = (req, res, next) => {
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Gắn user vào request để các bước sau dùng
+    const decoded = jwt.verify(token, JWT_SECRET);
+    console.log("Decoded JWT:", decoded);
+    req.user = decoded; 
     next();
   } catch (err) {
+    console.log("JWT Secret:", process.env.JWT_SECRET);  
+    console.error("JWT Verify Error:", err.message);
+    console.error("Full Error:", err);  
     return res.status(401).json({ message: 'Invalid token' });
   }
 };
+
 
 // Middleware: Kiểm tra vai trò người dùng
 const authorizeRoles = (...roles) => {

@@ -4,7 +4,7 @@ const Category = require('../../category-service/models/CategoryModel');
 // Tạo mới một sản phẩm
 exports.createProduct = async (req, res) => {
     try {
-        const { name, price, describe, status, categoryId } = req.body;
+        const { name, price, describe, status, categoryId,  quantity } = req.body;
         let imageUrls = []; 
 
         if (req.files && req.files.length > 0) {
@@ -36,18 +36,32 @@ exports.createProduct = async (req, res) => {
     }
 };
 
-// Lấy tất cả sản phẩm
+
 exports.getAllProducts = async (req, res) => {
     try {
-        const products = await Product.find().populate('categoryId'); 
-        if (products.length === 0) {
-            return res.status(404).json({ message: 'No products found' });
-        }
-        res.status(200).json(products);
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+
+
+        const skip = (page - 1) * limit;
+        const totalProducts = await Product.countDocuments();
+
+        const products = await Product.find()
+            .populate('categoryId')
+            .skip(skip)
+            .limit(limit);
+
+        res.status(200).json({
+            currentPage: page,
+            totalPages: Math.ceil(totalProducts / limit),
+            totalProducts,
+            products
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Lấy sản phẩm theo ID
 exports.getProductById = async (req, res) => {
@@ -65,8 +79,8 @@ exports.getProductById = async (req, res) => {
 // Cập nhật sản phẩm
 exports.updateProduct = async (req, res) => {
     try {
-        const { name, price, describe, status, categoryId } = req.body;
-        let updatedFields = { name, price, describe, status, categoryId };
+        const { name, price, describe, status, categoryId,  quantity } = req.body;
+        let updatedFields = { name, price, describe, status, categoryId,  quantity };
 
         if (req.files && req.files.length > 0) {
             let imageUrls = [];

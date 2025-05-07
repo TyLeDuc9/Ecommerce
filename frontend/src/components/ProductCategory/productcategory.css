@@ -22,7 +22,9 @@
     height: 250px;
     transition: box-shadow 0.3s ease;
 }
-
+.product__category-item a{
+    text-decoration: none;
+}
 
 .product__category-item:hover {
     border: 1px solid #f53d2d;
@@ -49,6 +51,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     display: -webkit-box;
+    color: black;
 }
 
 .product__category-price {

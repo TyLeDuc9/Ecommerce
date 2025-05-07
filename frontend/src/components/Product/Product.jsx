@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './product.css';
+import axios from 'axios';
 import { Button, Col, Row } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { toSlug } from '../../utils/toSlug';
 import { useAppContext } from '../../context/AppContext';  
 
 export const Product = () => {
-  const { product , addToCart, updateCartItem, removeFromCart} = useAppContext(); 
+  const { addToCart } = useAppContext(); 
   const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get('http://localhost:4003/api/product/all');
+        setProducts(res.data.products || []); 
+      } catch (err) {
+        console.error('Lỗi lấy sản phẩm:', err.message);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   return (
     <section className='product'>
@@ -17,18 +31,18 @@ export const Product = () => {
       <Row>
         <Col span={24}>
           <div className='product__list'>
-            {product.map((item) => (
+            {products.map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className='product__item'
-                onClick={() => navigate(`/product/${toSlug(item.category)}/${item.id}`)}
+                onClick={() => navigate(`/product/${toSlug(item.categoryId.name)}/${item._id}`)}
               >
                 <div>
-                  <img src={item.img[0]} alt={item.name} className='product__item-img' />
+                  <img src={item.image?.[0]} alt={item.name} className='product__item-img' />
                 </div>
                 <div className='product__item-info'>
                   <p className='product__item-name'>{item.name}</p>
-                  <span className='product__item-price'>{item.original_price}</span>
+                  <span className='product__item-price'>{item.price.toLocaleString()}₫</span>
                 </div>
               </div>
             ))}

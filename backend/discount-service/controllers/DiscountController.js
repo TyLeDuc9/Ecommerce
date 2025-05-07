@@ -2,9 +2,9 @@ const Discount = require('../models/DiscountModel.js');
 
 exports.createDiscount = async (req, res) => {
     try {
-        const { description, discountType, startDate, endDate, count } = req.body;
+        const { description, discountType, startDate, endDate, discountAmount } = req.body;
 
-        const newDiscount= new Discount({description, discountType, startDate, endDate, count});
+        const newDiscount = new Discount({ description, discountType, startDate, endDate, discountAmount });
 
         await newDiscount.save();
 
@@ -40,11 +40,11 @@ exports.getDiscountById = async (req, res) => {
 
 exports.updateDiscount = async (req, res) => {
     try {
-        const {description, discountType, startDate, endDate, count } = req.body;
+        const { description, discountType, startDate, endDate, discountAmount } = req.body;
 
         const discount = await Discount.findByIdAndUpdate(
             req.params.id,
-            { description, discountType, startDate, endDate, count },
+            { description, discountType, startDate, endDate, discountAmount },
             { new: true }
         );
 

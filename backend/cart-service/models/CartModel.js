@@ -2,18 +2,19 @@ const mongoose = require('mongoose');
 const Customer = mongoose.model('Customer', require('../../customer-service/models/CustomerModel').schema);
 const Product = mongoose.model('Product', require('../../product-service/models/ProductsModels').schema);
 const cartSchema = new mongoose.Schema({
-    sumCart: {
+    quantity: {
         type: Number,
-        required: true
+        required: true,
+        default: 1,
     },
     productId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
-        required: false
+        required: true
     },
-    customerId: { 
+    customerId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Customer', 
+        ref: 'Customer',
         required: true
     },
 
