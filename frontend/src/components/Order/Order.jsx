@@ -1,50 +1,100 @@
-import React from 'react';
-import './order.css';
+import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../../context/AppContext';
+import axios from 'axios';
+import './order.css';
 
 export const Order = () => {
-    const { cartItems, product } = useAppContext();
-    
-
-    
-    const orderedItems = cartItems.filter(item => item.ordered); 
-    const getProductById = (id) => product.find((p) => p.id === id);
-
     return (
-        <div className="order-container">
-            <h2>Đơn hàng của bạn</h2>
+        <div className="payment-container">
+            <div className="address-section">
+                <h3>Địa chỉ nhận hàng</h3>
+                <form className="address-form">
+                     <input
+                        type="text"
+                        placeholder="Họ và tên"
+                        name="name"
+                        required
+                    />
+                    <input
+                        type="number"
+                        placeholder="Phone"
+                        name="phone"
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Tỉnh / Thành phố"
+                        name="province"
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Địa chỉ chi tiết"
+                        name="address"
+                        required
+                    />
+                </form>
+            </div>
 
-            {orderedItems.length === 0 ? (
-                <p>Hiện chưa có đơn hàng nào.</p>
-            ) : (
-                orderedItems.map((item, index) => {
-                    const prod = getProductById(item.productId);
-                    if (!prod) return null;
+            <div className="payment-method-section">
+                <h3>Phương thức thanh toán</h3>
+                 <label>
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="cod"
+
+                        />
+                        Thanh toán khi nhận hàng (COD)
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="bank"
+                        />
+                        Thanh toán qua ngân hàng
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="credit"
+                        />
+                        Thanh toán bằng thẻ tín dụng
+                    </label>
+            </div>
+            <div className='product-status'>
+                <h3>Trạng thái</h3>
+                <span>Pending</span>
+            </div>
+
+            <div className="product-summary">
+                <h3>Sản phẩm</h3>
+
                     return (
-                        <div className="order-item" key={index}>
-                            <div className="order-header">
-                                <span>Mã đơn: #{item.id}</span>
-                                <span className="order-status">Đã đặt hàng</span>
-                            </div>
-                            <div className="order-body">
-                                <img src={prod.img[0]} alt={prod.name} />
-                                <div className="order-info">
-                                    <p className="product-name">{prod.name}</p>
-                                    <p>Số lượng: {item.quantity}</p>
-                                    <p>Giá: đ{(prod.discounted_price * item.quantity).toLocaleString('vi-VN')}</p>
-                                </div>
-                            </div>
-                            <div className="order-footer">
-                                <span>Tổng tiền: <strong>đ{(prod.discounted_price * item.quantity).toLocaleString('vi-VN')}</strong></span>
-                                <div className="order-actions">
-                                    <button className="btn-outline">Mua lại</button>
-                                    <button className="btn-orange">Xem chi tiết</button>
-                                </div>
+                        <div className="summary-item">
+                            <img
+                                src=""
+                                alt=""
+                            />
+                            <div>
+                                <p></p>
+                                <p>Số lượng: </p>
+                                <p>Giá: đ</p>
                             </div>
                         </div>
                     );
-                })
-            )}
+    
+            </div>
+
+            <div className="payment-summary">
+                <h3>Tổng thanh toán</h3>
+                <p>đ</p>
+                <button className="btn-confirm" >
+                    Đặt hàng
+                </button>
+            </div>
         </div>
     );
 };

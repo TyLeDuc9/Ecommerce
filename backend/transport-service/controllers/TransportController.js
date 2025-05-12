@@ -2,8 +2,8 @@ const Transport = require('../models/TransportModel');
 
 exports.createTransport = async (req, res) => {
     try {
-        const { status, orderId, transportMethodId, paymentId } = req.body;
-        const newTransport = new Transport({ status, orderId, transportMethodId, paymentId });
+        const { status, fee, shippingCarrier} = req.body;
+        const newTransport = new Transport({status, fee, shippingCarrier });
         await newTransport.save();
 
         res.status(201).json({
@@ -17,7 +17,7 @@ exports.createTransport = async (req, res) => {
 
 exports.getAllTransports = async (req, res) => {
     try {
-        const transports = await Transport.find();
+        const transports = await Transport.find().populate('transportMethodId').populate('paymentId');
         res.status(200).json(transports);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -26,7 +26,7 @@ exports.getAllTransports = async (req, res) => {
 
 exports.getTransportById = async (req, res) => {
     try {
-        const transport = await Transport.findById(req.params.id);
+        const transport = await Transport.findById(req.params.id).populate('transportMethodId').populate('paymentId');
         if (!transport) {
             return res.status(404).json({ message: 'Transport not found' });
         }
@@ -38,10 +38,10 @@ exports.getTransportById = async (req, res) => {
 
 exports.updateTransport = async (req, res) => {
     try {
-        const { status, orderId, transportMethodId, paymentId } = req.body;
+        const {status, fee, shippingCarrier} = req.body;
         const transport = await Transport.findByIdAndUpdate(
             req.params.id,
-            { status, orderId, transportMethodId, paymentId },
+            { status, fee, shippingCarrier},
             { new: true }
         );
 

@@ -16,12 +16,15 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URL = process.env.MONGO_URL;
 
 
-mongoose
-  .connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log("DB Connected");
-    app.listen(PORT, () => {
-      console.log(`Server is running on port: ${PORT}`);
-    });
-  })
-  .catch((err) => console.log(err));
+mongoose.connect(MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  connectTimeoutMS: 30000, // Thời gian kết nối dài hơn
+})
+.then(() => {
+  console.log("DB Connected");
+  app.listen(PORT, () => {
+    console.log(`Server is running on port: ${PORT}`);
+  });
+})
+.catch((err) => console.log(err));

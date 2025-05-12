@@ -2,8 +2,8 @@ const OrderDetails = require('../models/OrderDetailsModel');
 
 exports.createOrderDetails = async (req, res) => {
     try {
-        const { orderId, productId, paymentId, quantity, totalPrice } = req.body;
-        const newOrderDetails = new OrderDetails({ orderId, productId, paymentId, quantity, totalPrice });
+        const { orderId, productId,  quantity, totalPrice } = req.body;
+        const newOrderDetails = new OrderDetails({ orderId, productId,  quantity, totalPrice });
         await newOrderDetails.save();
 
         res.status(201).json({
@@ -46,10 +46,10 @@ exports.getOrderDetailsById = async (req, res) => {
 
 exports.updateOrderDetails = async (req, res) => {
     try {
-        const { orderId, productId, paymentId, quantity, totalPrice } = req.body;
+        const { orderId, productId,  quantity, totalPrice } = req.body;
         const orderDetails = await OrderDetails.findByIdAndUpdate(
             req.params.id,
-            { orderId, productId, paymentId, quantity, totalPrice },
+            { orderId, productId,  quantity, totalPrice },
             { new: true }
         );
 

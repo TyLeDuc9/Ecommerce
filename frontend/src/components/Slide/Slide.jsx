@@ -47,7 +47,7 @@ export const Slide = () => {
                     </div>
                 </Col>
 
-                <Col span={8} slide__box-list>
+                <Col span={8} className='slide__box-list'>
                 <div className='slide__right'>
                  {slideImageRight.map((item, index) => (
                      <img src={item} key={index} alt={`Slide${index}`} />
