@@ -68,6 +68,7 @@ export const ShopPages = () => {
                     </ul>
                 </div>
             </div>
+
             <div className="shop__products">
                 <h3>Sản phẩm của Shop</h3>
                 <div className='product__list'>

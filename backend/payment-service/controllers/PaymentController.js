@@ -76,3 +76,20 @@ exports.deletePayment = async (req, res) => {
         res.status(500).json({ message: error.message || 'Something went wrong' });
     }
 };
+// In your PaymentController.js
+exports.getPaymentByMethod = async (req, res) => {
+    const { paymentMethod } = req.params;
+
+    try {
+        // Find all payments with the specified paymentMethod
+        const payments = await Payment.find({ paymentMethod });
+
+        if (!payments.length) {
+            return res.status(404).json({ message: 'No payments found for this method' });
+        }
+
+        res.status(200).json(payments);
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Something went wrong' });
+    }
+};

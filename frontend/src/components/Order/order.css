@@ -12,7 +12,8 @@
   .payment-method-section,
   .product-summary,
   .product-status,
-  .payment-summary {
+  .payment-summary,
+  .transport-method {
     margin-bottom: 24px;
     padding: 16px;
     border: 1px solid #ddd;

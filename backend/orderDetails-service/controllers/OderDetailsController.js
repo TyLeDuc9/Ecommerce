@@ -1,18 +1,46 @@
 const OrderDetails = require('../models/OrderDetailsModel');
 
-exports.createOrderDetails = async (req, res) => {
-    try {
-        const { orderId, productId,  quantity, totalPrice } = req.body;
-        const newOrderDetails = new OrderDetails({ orderId, productId,  quantity, totalPrice });
-        await newOrderDetails.save();
+// exports.createOrderDetails = async (req, res) => {
+//     try {
+//         const { orderId, productId, quantity, totalPrice } = req.body;
+//         console.log("Dữ liệu OrderDetails nhận được:", req.body); 
+//         const newOrderDetails = new OrderDetails({ orderId, productId, quantity, totalPrice });
+//         await newOrderDetails.save();
 
-        res.status(201).json({
-            message: 'Order Details created successfully',
-            orderDetails: newOrderDetails,
-        });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+//         res.status(201).json({
+//             message: 'Order Details created successfully',
+//             orderDetails: newOrderDetails,
+//         });
+//     } catch (error) {
+//         console.error('Error creating OrderDetails:', error);
+//         res.status(500).json({ message: error.message });
+//     }
+// };
+exports.createOrderDetails = async (req, res) => {
+  try {
+    const { orderId, productId, quantity, totalPrice } = req.body;
+
+    // In ra dữ liệu để kiểm tra
+    console.log("Dữ liệu nhận được từ frontend:", req.body);
+
+    const newOrderDetails = new OrderDetails({
+      orderId,
+      productId,
+      quantity,
+      totalPrice,
+    });
+
+    // Lưu OrderDetails vào database
+    await newOrderDetails.save();
+
+    res.status(201).json({
+      message: 'Order Details created successfully',
+      orderDetails: newOrderDetails,
+    });
+  } catch (error) {
+    console.error('Error creating OrderDetails:', error);
+    res.status(500).json({ message: error.message });
+  }
 };
 
 exports.getAllOrderDetails = async (req, res) => {
