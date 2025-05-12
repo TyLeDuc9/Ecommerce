@@ -17,7 +17,7 @@ exports.createTransport = async (req, res) => {
 
 exports.getAllTransports = async (req, res) => {
     try {
-        const transports = await Transport.find().populate('transportMethodId').populate('paymentId');
+        const transports = await Transport.find();
         res.status(200).json(transports);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -26,7 +26,7 @@ exports.getAllTransports = async (req, res) => {
 
 exports.getTransportById = async (req, res) => {
     try {
-        const transport = await Transport.findById(req.params.id).populate('transportMethodId').populate('paymentId');
+        const transport = await Transport.findById(req.params.id);
         if (!transport) {
             return res.status(404).json({ message: 'Transport not found' });
         }
@@ -70,3 +70,21 @@ exports.deleteTransport = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+// In your TransportController.js
+exports.getTransportByMethod = async (req, res) => {
+    const { transportMethod } = req.params;
+
+    try {
+        // Assuming transportMethod is stored in the 'shippingCarrier' field
+        const transports = await Transport.find({ shippingCarrier: transportMethod });
+
+        if (!transports.length) {
+            return res.status(404).json({ message: 'No transports found for this method' });
+        }
+
+        res.status(200).json(transports);
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Something went wrong' });
+    }
+};
+

@@ -150,13 +150,13 @@ exports.sortProduct = async (req, res) => {
 
 
 
-// Lấy các sản phẩm được xem nhiều nhất
+
 exports.getPopularProducts = async (req, res) => {
   try {
-    const limit = parseInt(req.query.limit) || 10; // Số lượng sản phẩm muốn trả về
+    const limit = parseInt(req.query.limit) || 10; 
 
     const products = await Product.find()
-      .sort({ views: -1 }) // Sắp xếp theo số lượt xem giảm dần
+      .sort({ views: -1 }) 
       .limit(limit)
       .populate("categoryId");
 
@@ -172,11 +172,9 @@ exports.getPopularProducts = async (req, res) => {
 exports.getProductDetails = async (req, res) => {
   try {
     const { productId } = req.params;
-
-    // Populate cả category, seller và user nếu cần
     const product = await Product.findById(productId)
-      .populate('categoryId', 'name') // Lấy tên category
-      .populate('sellerId', 'storeName storeAddress phone image') // Lấy info của seller
+      .populate('categoryId', 'name')
+      .populate('sellerId', 'storeName storeAddress phone image') 
 
     if (!product) {
       return res.status(404).json({ message: 'Sản phẩm không tồn tại' });
