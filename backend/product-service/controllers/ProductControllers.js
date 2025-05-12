@@ -1,10 +1,14 @@
+
 const Product = require("../models/ProductsModels");
 const cloudinary = require("cloudinary").v2;
 const Category = require("../../category-service/models/CategoryModel");
+const User = require("../../user-service/models/UserModel");
+const Seller = require("../../seller-service/models/SellerModels");
+
 // Tạo mới một sản phẩm
 exports.createProduct = async (req, res) => {
     try {
-        const { name, price, describe, status, categoryId, quantity, views } = req.body;
+        const { name, price, describe, status, categoryId, quantity ,userId, sellerId  } = req.body;
         let imageUrls = []; 
 
     if (req.files && req.files.length > 0) {
@@ -24,13 +28,9 @@ exports.createProduct = async (req, res) => {
       status,
       categoryId,
       quantity,
-      views: 0, // Khởi tạo số lượt xem là 0
+      userId, sellerId 
+    
     });
-
-    await Product.updateMany(
-      { views: { $exists: false } }, // Tìm tất cả document chưa có trường views
-      { $set: { views: 0 } } // Thêm trường views với giá trị mặc định là 0
-    );
 
     await newProduct.save();
 
@@ -46,7 +46,8 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find().populate('categoryId');
+    const products = await Product.find().populate('categoryId').populate('sellerId').populate('userId');
+    console.log(products);  // Thêm dòng này để kiểm tra kết quả trả về
     if (products.length === 0) {
       return res.status(404).json({ message: 'No products found' });
     }
@@ -57,15 +58,12 @@ exports.getAllProducts = async (req, res) => {
 };
 
 
-// Lấy sản phẩm theo ID
 exports.getProductById = async (req, res) => {
   try {
-    // Tìm sản phẩm và tăng số lượt xem lên 1 trong cùng một thao tác
-    const product = await Product.findByIdAndUpdate(
-      req.params.id,
-      { $inc: { views: 1 } }, // Tăng views lên 1
-      { new: true } // Trả về document đã được cập nhật
-    ).populate("categoryId");
+    const product = await Product.findById(req.params.id)
+      .populate('categoryId')
+      .populate('sellerId')
+      .populate('userId');
 
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
@@ -77,11 +75,10 @@ exports.getProductById = async (req, res) => {
   }
 };
 
-// Cập nhật sản phẩm
 exports.updateProduct = async (req, res) => {
     try {
-        const { name, price, describe, status, categoryId , quantity, views} = req.body;
-        let updatedFields = { name, price, describe, status, categoryId, quantity, views };
+        const { name, price, describe, status, categoryId , quantity,  userId, sellerId } = req.body;
+        let updatedFields = { name, price, describe, status, categoryId, quantity,  userId, sellerId  };
 
     if (req.files && req.files.length > 0) {
       let imageUrls = [];
@@ -170,5 +167,40 @@ exports.getPopularProducts = async (req, res) => {
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+exports.getProductDetails = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    // Populate cả category, seller và user nếu cần
+    const product = await Product.findById(productId)
+      .populate('categoryId', 'name') // Lấy tên category
+      .populate('sellerId', 'storeName storeAddress phone image') // Lấy info của seller
+
+    if (!product) {
+      return res.status(404).json({ message: 'Sản phẩm không tồn tại' });
+    }
+
+    res.status(200).json(product);
+
+  } catch (error) {
+    console.error('Lỗi khi lấy chi tiết sản phẩm:', error);
+    res.status(500).json({ message: 'Đã xảy ra lỗi server' });
+  }
+};
+exports.getProductsBySeller = async (req, res) => {
+  try {
+    const { sellerId } = req.params;
+
+    const products = await Product.find({ sellerId })
+      .populate('categoryId', 'name')
+      .populate('sellerId', 'storeName storeAddress phone image') 
+      .select('name price image categoryId');
+
+    res.status(200).json(products);
+  } catch (error) {
+    console.error('Lỗi khi lấy sản phẩm theo seller:', error);
+    res.status(500).json({ message: 'Đã xảy ra lỗi server' });
   }
 };

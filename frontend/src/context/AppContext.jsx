@@ -5,119 +5,62 @@ import axios from 'axios';
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
-  const [customer, setCustomer] = useState(null);
-  const [seller, setSeller] = useState(null);
-  const [products, setProducts] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
   const [categories, setCategories] = useState([]);
-  const navigate = useNavigate();
-
-  
-  useEffect(() => {
-    const storedCart = localStorage.getItem('cartItems');
-    if (storedCart) {
-      setCartItems(JSON.parse(storedCart));
-    }
-  }, []);
-
-
-  useEffect(() => {
-    if (cartItems.length > 0) {
-      localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    } else {
-      localStorage.removeItem('cartItems');
-    }
-  }, [cartItems]);
-   
-
+  const [products, setProducts] = useState([]);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem('token'));
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/api/category/all')
+      const res = await axios.get('http://localhost:3001/api/category/all');
       setCategories(res.data || []);
     } catch (error) {
       console.error('Lỗi khi lấy danh mục:', error.message);
     }
   };
 
-  const addToCart = async (product, quantity) => {
-    try {
-      const storedCustomer = JSON.parse(localStorage.getItem('customer'));
-      const customerId = storedCustomer?._id || storedCustomer?.id;
-      if (!customerId) {
-        alert("Không xác định được người dùng. Vui lòng đăng nhập lại.");
-        return;
-      }
-
-      setCartItems(prev => {
-        const existingItem = prev.find(item => item.productId === product._id);
-        if (existingItem) {
-          return prev.map(item =>
-            item.productId === product._id
-              ? { ...item, quantity: item.quantity + quantity }
-              : item
-          );
-        } else {
-          return [
-            ...prev,
-            {
-              productId: product._id,
-              quantity,
-              productName: product.name,
-              productImage: product.image?.[0],
-              productPrice: product.price
-            }
-          ];
-        }
-      });
-
-      await axios.post('http://localhost:3003/api/cart/create', {
-        productId: product._id,
-        quantity,
-        customerId
-      }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
-
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchProduct = async () => {
+  const fetchProducts = async () => {
     try {
       const res = await axios.get('http://localhost:4003/api/product/all');
       setProducts(res.data.products || []);
     } catch (error) {
-      console.error('Lỗi khi lấy danh sách sản phẩm:', error.message);
+      console.error('Lỗi khi lấy sản phẩm:', error.message);
     }
   };
 
   useEffect(() => {
-    fetchProduct();
-    fetchCategories();
+  fetchProducts();
+  fetchCategories();
+  const storedUser = localStorage.getItem('user');
+  if (storedUser) {
+    setUser(JSON.parse(storedUser));
+  }
+}, []);  // Chỉ chạy khi component mount
 
-    const storedCustomer = localStorage.getItem('customer');
-    if (storedCustomer) {
-      const customerData = JSON.parse(storedCustomer);
-      setCustomer(customerData);
-      if (customerData.role === 'seller') {
-        setSeller(customerData);
-      }
-    }
-  }, []);
+
+  const handleLogin = (userData, token) => {
+    setUser(userData);
+    setToken(token);
+    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem('token', token);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+  };
 
   const value = {
-    navigate,
+    categories,
+    setCategories,
     products,
-    cartItems,
-    setCartItems,
-    addToCart,
-    customer,
-    seller,
-    setCustomer,
-    setSeller,
-    categories
+    setProducts,
+    user,
+    token,
+    handleLogin,
+    handleLogout,
   };
 
   return (

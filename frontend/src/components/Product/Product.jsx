@@ -6,7 +6,7 @@ import { toSlug } from '../../utils/toSlug';
 import { useAppContext } from '../../context/AppContext';
 
 export const Product = () => {
-  const { addToCart, products } = useAppContext(); 
+  const {  products } = useAppContext(); 
   const navigate = useNavigate();
 
   if (!products || products.length === 0) {
@@ -21,7 +21,7 @@ export const Product = () => {
       <Row>
         <Col span={24}>
           <div className='product__list'>
-            {products.map((item) => (
+            {products.map((item) => ( 
               <div
                 key={item._id}
                 className='product__item'
