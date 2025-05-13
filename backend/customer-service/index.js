@@ -1,33 +1,27 @@
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const customerRoutes = require('./routes/CustomerRoutes');
-const cors = require('cors');
+require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose");
+const customerRoutes = require("./routes/CustomerRoutes");
+const cors = require("cors");
 const app = express();
 
 app.use(express.json());
 app.use(cors());
-<<<<<<< HEAD
-=======
-app.use('/api/customer', customerRoutes);
->>>>>>> 8b2989e427217d1d72a1ba14425e1f3d8aca3053
 
 // Debug middleware
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
-  console.log('Headers:', req.headers);
-  console.log('Body:', req.body);
+  console.log("Headers:", req.headers);
+  console.log("Body:", req.body);
   next();
 });
 
-// Debug log for route registration
-console.log("Registering routes...");
-app.use('/customer/api', customerRoutes);
-console.log("Routes registered successfully");
+// Đăng ký route cho customer service
+app.use("/customer/api", customerRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error('Error:', err);
+  console.error("Error:", err);
   res.status(500).json({ message: err.message });
 });
 
@@ -36,8 +30,10 @@ const MONGO_URL = process.env.MONGO_URL;
 
 mongoose
   .connect(MONGO_URL, {
-    useNewUrlParser: true, useUnifiedTopology: true, serverSelectionTimeoutMS: 5000, 
-    socketTimeoutMS: 45000
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000,
   })
   .then(() => {
     console.log("DB Connected");

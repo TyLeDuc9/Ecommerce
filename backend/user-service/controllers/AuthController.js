@@ -1,93 +1,87 @@
-<<<<<<< HEAD
 const User = require("../models/UserModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const axios = require("axios"); // Import axios
+const axios = require("axios"); // Import axios để gọi API
 
-// Register
-=======
-const User = require('../models/UserModel');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-
->>>>>>> 8b2989e427217d1d72a1ba14425e1f3d8aca3053
+// Đăng ký tài khoản
 exports.register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser)
       return res.status(400).json({ message: "Email already exists" });
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+
     const newUser = new User({
       name,
       email,
       password: hashedPassword,
-      role: role || 'customer', // Default to customer if role not specified
+      role: role || "customer", // Mặc định là customer nếu không truyền role
     });
     await newUser.save();
 
-    // If role is customer (default or specified), create customer record
+    // Nếu là customer thì tự động tạo customer profile
     if (newUser.role === "customer") {
       try {
-        // Call customer-service API to create customer
-        const customerResponse = await axios.post(`${process.env.CUSTOMER_SERVICE_URL}/customer/api/create`, {
-          fullName: newUser.name,
-          email: newUser.email,
-          userId: newUser._id,
-          phone: "",
-          address: "",
-          birthday: null,
-          gender: "Khác"
-        });
+        const customerResponse = await axios.post(
+          `${process.env.CUSTOMER_SERVICE_URL}/customer/api/create`,
+          {
+            fullName: newUser.name,
+            email: newUser.email,
+            userId: newUser._id,
+            phone: "",
+            address: "",
+            birthday: null,
+            gender: "Khác",
+          }
+        );
 
-        // If customer creation was successful, include customer info in response
         if (customerResponse.data) {
-          return res.status(201).json({ 
+          return res.status(201).json({
             message: "User and customer profile created successfully",
             user: {
               id: newUser._id,
               name: newUser.name,
               email: newUser.email,
-              role: newUser.role
+              role: newUser.role,
             },
-            customer: customerResponse.data.customer
+            customer: customerResponse.data.customer,
           });
         }
       } catch (error) {
         console.error("Error creating customer:", error.message);
-        // If customer creation fails, still return user creation success
-        return res.status(201).json({ 
-          message: "User created successfully but customer profile creation failed. Please try updating your profile later.",
+        // Nếu tạo customer thất bại vẫn trả về user đã tạo
+        return res.status(201).json({
+          message:
+            "User created successfully but customer profile creation failed. Please try updating your profile later.",
           user: {
             id: newUser._id,
             name: newUser.name,
             email: newUser.email,
-            role: newUser.role
-          }
+            role: newUser.role,
+          },
         });
       }
     }
 
-    // If not a customer role, just return user creation success
-    res.status(201).json({ 
+    // Nếu không phải customer chỉ trả về user
+    res.status(201).json({
       message: "User created successfully",
       user: {
         id: newUser._id,
         name: newUser.name,
         email: newUser.email,
-        role: newUser.role
-      }
+        role: newUser.role,
+      },
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
-<<<<<<< HEAD
 
-// Login
-=======
->>>>>>> 8b2989e427217d1d72a1ba14425e1f3d8aca3053
+// Đăng nhập
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -118,17 +112,17 @@ exports.login = async (req, res) => {
   }
 };
 
+// Lấy thông tin user đang đăng nhập
 exports.getLoggedInUser = async (req, res) => {
-    try {
-      console.log("✅ req.user trong getLoggedInUser:", req.user);
-
-        const user = await User.findById(req.user.id).select('-password'); 
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-        res.status(200).json({ user });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
+  try {
+    // req.user được gán từ middleware authenticate
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
+    res.status(200).json({ user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
 };
