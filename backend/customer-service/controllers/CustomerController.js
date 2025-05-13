@@ -140,3 +140,25 @@ exports.sortCustomer = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+async function updateCustomerByUserId(req, res) {
+  try {
+    const userId = req.params.userId;
+    const updateData = req.body;
+
+    // Tìm customer theo userId
+    const customer = await Customer.findOne({ userId: userId });
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+
+    // Cập nhật customer
+    Object.assign(customer, updateData);
+    await customer.save();
+
+    return res.status(200).json(customer);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+exports.updateCustomerByUserId = updateCustomerByUserId;

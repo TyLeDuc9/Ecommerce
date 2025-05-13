@@ -32,7 +32,6 @@ exports.createProduct = async (req, res) => {
       status,
       categoryId,
       quantity,
-      views,
       userId,
       sellerId,
     });
@@ -47,7 +46,7 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-// Lấy tất cả sản phẩm
+// Lấy tất cả sản phẩm - không tăng view vì đây là danh sách
 exports.getAllProducts = async (req, res) => {
   try {
     const products = await Product.find()
@@ -63,18 +62,34 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-// Lấy sản phẩm theo ID
+// Lấy sản phẩm theo ID và tăng view
 exports.getProductById = async (req, res) => {
   try {
+    console.log("Getting product with ID:", req.params.id);
+
+    // Kiểm tra ID hợp lệ
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid product ID format" });
+    }
+
+    // Tách biệt việc cập nhật views và lấy dữ liệu
+    await Product.findByIdAndUpdate(req.params.id, { $inc: { views: 1 } });
+
+    // Sau khi cập nhật, lấy dữ liệu mới nhất
     const product = await Product.findById(req.params.id)
       .populate("categoryId")
       .populate("sellerId")
       .populate("userId");
+
     if (!product) {
+      console.log("Product not found with ID:", req.params.id);
       return res.status(404).json({ message: "Product not found" });
     }
+
+    console.log("Product views after update:", product.views);
     res.status(200).json(product);
   } catch (err) {
+    console.error("Error in getProductById:", err);
     res.status(500).json({ message: err.message });
   }
 };
@@ -114,11 +129,13 @@ exports.updateProduct = async (req, res) => {
       }
       updatedFields.image = imageUrls;
     }
+
     const product = await Product.findByIdAndUpdate(
       req.params.id,
       updatedFields,
       { new: true }
     );
+
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
@@ -144,7 +161,7 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-// Tìm kiếm sản phẩm theo tên
+// Tìm kiếm sản phẩm theo tên - không tăng view vì đây là danh sách
 exports.searchProductName = async (req, res) => {
   try {
     const { name } = req.query;
@@ -158,7 +175,7 @@ exports.searchProductName = async (req, res) => {
   }
 };
 
-// Sắp xếp sản phẩm theo tên (mặc định tăng dần)
+// Sắp xếp sản phẩm theo tên - không tăng view vì đây là danh sách
 exports.sortProduct = async (req, res) => {
   try {
     const product = await Product.find()
@@ -170,7 +187,7 @@ exports.sortProduct = async (req, res) => {
   }
 };
 
-// Lấy các sản phẩm phổ biến (nhiều lượt xem nhất)
+// Lấy các sản phẩm phổ biến - không tăng view vì đây là danh sách
 exports.getPopularProducts = async (req, res) => {
   try {
     const limit = parseInt(req.query.limit) || 10;
@@ -187,7 +204,7 @@ exports.getPopularProducts = async (req, res) => {
   }
 };
 
-// Lấy sản phẩm theo category
+// Lấy sản phẩm theo category - không tăng view vì đây là danh sách
 exports.getProductsByCategory = async (req, res) => {
   try {
     const products = await Product.find({ categoryId: req.params.categoryId })
@@ -200,11 +217,15 @@ exports.getProductsByCategory = async (req, res) => {
   }
 };
 
-// Lấy chi tiết sản phẩm (theo productId)
+// Lấy chi tiết sản phẩm (theo productId) và tăng views
 exports.getProductDetails = async (req, res) => {
   try {
     const { productId } = req.params;
-    const product = await Product.findById(productId)
+    const product = await Product.findByIdAndUpdate(
+      productId,
+      { $inc: { views: 1 } },
+      { new: true }
+    )
       .populate("categoryId", "name")
       .populate("sellerId", "storeName storeAddress phone image");
     if (!product) {
@@ -217,7 +238,7 @@ exports.getProductDetails = async (req, res) => {
   }
 };
 
-// Lấy sản phẩm theo seller
+// Lấy sản phẩm theo seller - không tăng view vì đây là danh sách
 exports.getProductsBySeller = async (req, res) => {
   try {
     const { sellerId } = req.params;

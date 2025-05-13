@@ -8,6 +8,8 @@ const CustomerController = require("../controllers/CustomerController");
 
 // Các route đặc biệt
 router.get("/by-user/:userId", CustomerController.getCustomerByUserId);
+router.put('/update-by-user/:userId', CustomerController.updateCustomerByUserId);
+
 // router.put("/update-by-user/:userId", CustomerController.updateCustomerByUserId); // Nếu có
 
 // Các route chung

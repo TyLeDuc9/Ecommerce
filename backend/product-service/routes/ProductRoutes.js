@@ -16,9 +16,6 @@ router.get("/sort", ProductController.sortProduct);
 // Lấy tất cả sản phẩm
 router.get("/all", ProductController.getAllProducts);
 
-// Lấy sản phẩm theo ID
-router.get("/:id", ProductController.getProductById);
-
 // Lấy sản phẩm theo seller (nếu có)
 router.get("/sellers/:sellerId", ProductController.getProductsBySeller);
 
@@ -34,7 +31,6 @@ router.get("/by-category/:categoryId", ProductController.getProductsByCategory);
 // Kiểm tra views của sản phẩm (dùng cho mục đích kiểm tra, có thể bỏ nếu không cần)
 router.get("/check-views", async (req, res) => {
   try {
-    // Bạn cần require model Product ở đầu file nếu muốn dùng đoạn này
     const Product = require("../models/ProductModel");
     const products = await Product.find({}, "name views");
     res.status(200).json(products);
@@ -42,6 +38,9 @@ router.get("/check-views", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+// Lấy sản phẩm theo ID (route động phải đặt CUỐI CÙNG)
+router.get("/:id", ProductController.getProductById);
 
 // Tạo sản phẩm mới
 router.post(
