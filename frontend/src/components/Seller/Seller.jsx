@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import './seller.css';
-
+import { useAppContext } from '../../context/AppContext';
 export const Seller = () => {
+  const { seller } = useAppContext(); 
+
   return (
     <div className="seller-layout">
 
@@ -16,14 +18,12 @@ export const Seller = () => {
         </ul>
       </div>
 
-  
       <div className="seller-main">
-
         <div className="seller-header">
-          <span>Xin chào, Seller!</span>
+          <span>Xin chào, {seller?.name || 'Seller'}!</span>
           <div className="seller-header-actions">
             <i className="fa fa-bell"></i>
-            <img src="/avatar.jpg" alt="avatar" className="seller-avatar" />
+            <span className="seller-name">{seller?.name}</span> 
           </div>
         </div>
 

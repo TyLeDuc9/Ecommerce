@@ -1,30 +1,28 @@
 const Payment = require('../models/PaymentModel');
 
 exports.createPayment = async (req, res) => {
+      const { paymentMethod, paymentStatus } = req.body;
+
     try {
-        const { paymentDate, amount, paymentMethodId, paymentStatusId } = req.body;
-        
-        if (amount <= 0) {
-            return res.status(400).json({ message: 'Amount must be greater than zero' });
-        }
-
-        const newPayment = new Payment({ paymentDate, amount, paymentMethodId, paymentStatusId });
-        await newPayment.save();
-
+        const newPayment = new Payment({
+            paymentMethod,
+            paymentStatus
+        });
+        const savedPayment = await newPayment.save();
         res.status(201).json({
-            message: 'Payment created successfully',
-            payment: newPayment,
+            message: 'Payment method created successfully',
+            payment: savedPayment
         });
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Something went wrong' });
+        console.error(error);
+        res.status(500).json({ message: 'Lỗi khi tạo phương thức thanh toán' });
     }
 };
+
 
 exports.getAllPayments = async (req, res) => {
     try {
         const payments = await Payment.find()
-            .populate('paymentMethodId')
-            .populate('paymentStatusId');
         res.status(200).json(payments);
     } catch (error) {
         res.status(500).json({ message: error.message || 'Something went wrong' });
@@ -34,8 +32,6 @@ exports.getAllPayments = async (req, res) => {
 exports.getPaymentById = async (req, res) => {
     try {
         const payment = await Payment.findById(req.params.id)
-            .populate('paymentMethodId')
-            .populate('paymentStatusId');
         if (!payment) {
             return res.status(404).json({ message: 'Payment not found' });
         }
@@ -47,15 +43,11 @@ exports.getPaymentById = async (req, res) => {
 
 exports.updatePayment = async (req, res) => {
     try {
-        const { paymentDate, amount, paymentMethodId, paymentStatusId } = req.body;
-        
-        if (amount <= 0) {
-            return res.status(400).json({ message: 'Amount must be greater than zero' });
-        }
+        const { paymentDate, paymentMethod, paymentStatus } = req.body;
 
         const payment = await Payment.findByIdAndUpdate(
             req.params.id,
-            { paymentDate, amount, paymentMethodId, paymentStatusId },
+            { paymentDate, paymentMethod, paymentStatus },
             { new: true }
         );
 
@@ -80,6 +72,23 @@ exports.deletePayment = async (req, res) => {
         }
 
         res.status(200).json({ message: 'Payment deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Something went wrong' });
+    }
+};
+// In your PaymentController.js
+exports.getPaymentByMethod = async (req, res) => {
+    const { paymentMethod } = req.params;
+
+    try {
+        // Find all payments with the specified paymentMethod
+        const payments = await Payment.find({ paymentMethod });
+
+        if (!payments.length) {
+            return res.status(404).json({ message: 'No payments found for this method' });
+        }
+
+        res.status(200).json(payments);
     } catch (error) {
         res.status(500).json({ message: error.message || 'Something went wrong' });
     }

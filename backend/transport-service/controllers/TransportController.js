@@ -2,8 +2,8 @@ const Transport = require('../models/TransportModel');
 
 exports.createTransport = async (req, res) => {
     try {
-        const { status, orderId, transportMethodId, paymentId } = req.body;
-        const newTransport = new Transport({ status, orderId, transportMethodId, paymentId });
+        const { status, fee, shippingCarrier} = req.body;
+        const newTransport = new Transport({status, fee, shippingCarrier });
         await newTransport.save();
 
         res.status(201).json({
@@ -38,10 +38,10 @@ exports.getTransportById = async (req, res) => {
 
 exports.updateTransport = async (req, res) => {
     try {
-        const { status, orderId, transportMethodId, paymentId } = req.body;
+        const {status, fee, shippingCarrier} = req.body;
         const transport = await Transport.findByIdAndUpdate(
             req.params.id,
-            { status, orderId, transportMethodId, paymentId },
+            { status, fee, shippingCarrier},
             { new: true }
         );
 
@@ -70,3 +70,21 @@ exports.deleteTransport = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+// In your TransportController.js
+exports.getTransportByMethod = async (req, res) => {
+    const { transportMethod } = req.params;
+
+    try {
+        // Assuming transportMethod is stored in the 'shippingCarrier' field
+        const transports = await Transport.find({ shippingCarrier: transportMethod });
+
+        if (!transports.length) {
+            return res.status(404).json({ message: 'No transports found for this method' });
+        }
+
+        res.status(200).json(transports);
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Something went wrong' });
+    }
+};
+

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Customer = mongoose.model('Customer', require('../../customer-service/models/CustomerModel').schema);
 const Product = mongoose.model('Product', require('../../product-service/models/ProductsModels').schema);
+const User = mongoose.model('User', require('../../user-service/models/UserModel').schema);
 const cartSchema = new mongoose.Schema({
     quantity: {
         type: Number,
@@ -15,8 +16,14 @@ const cartSchema = new mongoose.Schema({
     customerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer',
-        required: true
+        required: false,
     },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
+
 
 });
 

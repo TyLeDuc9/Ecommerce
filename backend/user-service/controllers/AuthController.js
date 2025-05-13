@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 const User = require("../models/UserModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const axios = require("axios"); // Import axios
 
 // Register
+=======
+const User = require('../models/UserModel');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+>>>>>>> 8b2989e427217d1d72a1ba14425e1f3d8aca3053
 exports.register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -76,8 +83,11 @@ exports.register = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+<<<<<<< HEAD
 
 // Login
+=======
+>>>>>>> 8b2989e427217d1d72a1ba14425e1f3d8aca3053
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -106,4 +116,19 @@ exports.login = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+};
+
+exports.getLoggedInUser = async (req, res) => {
+    try {
+      console.log("✅ req.user trong getLoggedInUser:", req.user);
+
+        const user = await User.findById(req.user.id).select('-password'); 
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json({ user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
 };

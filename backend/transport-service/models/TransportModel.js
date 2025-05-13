@@ -1,24 +1,18 @@
 const mongoose = require('mongoose');
-const transportSchema=new mongoose.Schema({
-    status:{
-        type:String,
-        required:true
-    },
-    orderId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Order',
+const transportSchema = new mongoose.Schema({
+    status: {
+        type: String,
         required: true
     },
-    transportMethodId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'TransportMethod',
+    fee: {
+        type: Number,
+        required: true,
+        min: 0
+    },
+    shippingCarrier: {
+        type: String,
         required: true
-    },
-    paymentId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Payment',
-        required: true  
-    },
+    }
 
-})
-module.exports=mongoose.model('Transport', transportSchema);
+}, {timestamps:true})
+module.exports = mongoose.model('Transport', transportSchema);

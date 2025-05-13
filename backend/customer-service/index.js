@@ -7,6 +7,10 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+<<<<<<< HEAD
+=======
+app.use('/api/customer', customerRoutes);
+>>>>>>> 8b2989e427217d1d72a1ba14425e1f3d8aca3053
 
 // Debug middleware
 app.use((req, res, next) => {
