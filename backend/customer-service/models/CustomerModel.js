@@ -1,28 +1,12 @@
-const mongoose = require('mongoose');
-const customerSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    phone: {
-        type: String,
-        required: true
-    },
-    birthday: {
-        type: Date,
-        required: true
+const mongoose = require("mongoose");
+const CustomerSchema = new mongoose.Schema({
+  fullName: { type: String, required: true },
+  phone: { type: String, default: "" },
+  address: { type: String, default: "" },
+  birthday: { type: Date },
+  gender: { type: String, enum: ["Nam", "Nữ", "Khác"], default: "Khác" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  email: { type: String, required: true, unique: true }
+}, { timestamps: true });
 
-    },
-    gender: {
-        type: String,
-        required: true
-    }
-    
-},{ timestamps: true })
-
-module.exports = mongoose.model('Customer', customerSchema);
+module.exports = mongoose.model("Customer", CustomerSchema);

@@ -3,9 +3,10 @@ const cloudinary = require("cloudinary").v2;
 const Category = require("../../category-service/models/CategoryModel");
 // Tạo mới một sản phẩm
 exports.createProduct = async (req, res) => {
-    try {
-        const { name, price, describe, status, categoryId, quantity, views } = req.body;
-        let imageUrls = []; 
+  try {
+    const { name, price, describe, status, categoryId, quantity, views } =
+      req.body;
+    let imageUrls = [];
 
     if (req.files && req.files.length > 0) {
       for (const file of req.files) {
@@ -43,19 +44,17 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find().populate('categoryId');
+    const products = await Product.find().populate("categoryId");
     if (products.length === 0) {
-      return res.status(404).json({ message: 'No products found' });
+      return res.status(404).json({ message: "No products found" });
     }
     res.status(200).json({ products });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 // Lấy sản phẩm theo ID
 exports.getProductById = async (req, res) => {
@@ -79,9 +78,18 @@ exports.getProductById = async (req, res) => {
 
 // Cập nhật sản phẩm
 exports.updateProduct = async (req, res) => {
-    try {
-        const { name, price, describe, status, categoryId , quantity, views} = req.body;
-        let updatedFields = { name, price, describe, status, categoryId, quantity, views };
+  try {
+    const { name, price, describe, status, categoryId, quantity, views } =
+      req.body;
+    let updatedFields = {
+      name,
+      price,
+      describe,
+      status,
+      categoryId,
+      quantity,
+      views,
+    };
 
     if (req.files && req.files.length > 0) {
       let imageUrls = [];
@@ -151,8 +159,6 @@ exports.sortProduct = async (req, res) => {
   }
 };
 
-
-
 // Lấy các sản phẩm được xem nhiều nhất
 exports.getPopularProducts = async (req, res) => {
   try {
@@ -170,5 +176,14 @@ exports.getPopularProducts = async (req, res) => {
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+exports.getProductsByCategory = async (req, res) => {
+  try {
+    const products = await Product.find({ categoryId: req.params.categoryId });
+    res.status(200).json(products);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };

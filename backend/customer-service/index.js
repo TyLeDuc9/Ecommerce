@@ -5,11 +5,27 @@ const customerRoutes = require('./routes/CustomerRoutes');
 const cors = require('cors');
 const app = express();
 
-
 app.use(express.json());
 app.use(cors());
-app.use('/customer/api', customerRoutes);
 
+// Debug middleware
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  console.log('Headers:', req.headers);
+  console.log('Body:', req.body);
+  next();
+});
+
+// Debug log for route registration
+console.log("Registering routes...");
+app.use('/customer/api', customerRoutes);
+console.log("Routes registered successfully");
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).json({ message: err.message });
+});
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URL = process.env.MONGO_URL;
