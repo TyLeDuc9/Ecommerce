@@ -1,0 +1,50 @@
+.user-admin-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.search-container {
+  margin-bottom: 15px;
+}
+
+.search-container input {
+  padding: 6px 10px;
+  font-size: 16px;
+  width: 250px;
+  margin-right: 10px;
+}
+
+.search-container button {
+  padding: 6px 16px;
+  font-size: 16px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-container button:hover {
+  background-color: orangered;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.user-table th {
+  background-color: #f2f2f2;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}

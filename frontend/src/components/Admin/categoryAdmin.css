@@ -1,0 +1,74 @@
+.category-form {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.search-container{
+    display: flex;
+    justify-content: space-between;
+}
+.category-form input,
+.category-form textarea {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+}
+
+.category-form button {
+  width: 120px;
+  padding: 8px;
+  background-color: orangered;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.category-form button:hover {
+  background-color: red;
+}
+
+.cancel-btn {
+  background-color: #6c757d;
+}
+
+.cancel-btn:hover {
+  background-color: #5a6268;
+}
+
+.category-item {
+  background: #f0f0f0;
+  margin-bottom: 8px;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.category-item:hover {
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: #b02a37;
+}

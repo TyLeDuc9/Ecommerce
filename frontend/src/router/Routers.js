@@ -18,7 +18,18 @@ import { ProductDetails } from '../components/ProductDetails/ProductDetails';
 import OrderDetail from '../components/OrderDetail/OrderDetail';
 import { CustomerProfile } from '../components/Profile/CustomerProfile';
 import { SellerShop } from '../components/Seller/SellerShop';
-import {ShopPages } from '../components/Seller/ShopPages';
+import { ShopPages } from '../components/Seller/ShopPages';
+import { SellerForm } from '../components/Seller/SellerForm';
+import { OrderSeller } from '../components/Order/OrderSeller';
+import { RegisterAdmin } from '../components/Admin/RegisterAdmin';
+import { LoginAdmin } from '../components/Admin/LoginAdmin';
+import { PageAdmin } from '../components/Admin/PageAdmin';
+import { UserAdmin } from '../components/Admin/UserAdmin';
+import { CategoryAdmin } from '../components/Admin/CategoryAdmin';
+import { OrderAdmin } from '../components/Admin/OrderAdmin';
+import { ProductAdmin } from '../components/Admin/ProductAdmin';
+
+
 
 const Routers = () => {
   return (
@@ -26,6 +37,16 @@ const Routers = () => {
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/home" element={<><Header /><Home /></>} />
+        <Route path="/registerAdmin" element={<RegisterAdmin />} />
+        <Route path="/loginAdmin" element={<LoginAdmin />} />
+        <Route path="/pageAdmin" element={<PageAdmin />} >
+          <Route path="users" element={<UserAdmin/>} />
+          <Route path="categories" element={<CategoryAdmin/>} />
+          <Route path="orders" element={<OrderAdmin/>} />
+          <Route path="products" element={<ProductAdmin/>} />
+
+        </Route>
+
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/seller/register" element={<SellerRegister />} />
@@ -33,8 +54,12 @@ const Routers = () => {
         <Route path="/product/:category" element={<><Header /><ProductCategory /></>} />
         <Route path="/product/:category/:id" element={<><Header /><ProductDetails /></>} />
         <Route path="/cart" element={<><Header /><Cart /></>} />
-        <Route path="/seller" element={<Seller />} />
-        <Route path="/seller/addProducts" element={<><Header /><AddProducts /></>} />
+        <Route path="/seller" element={<Seller />}>
+          <Route path="addProducts" element={<AddProducts />} />
+          <Route path="sellerForm" element={<SellerForm />} />
+          <Route path="orderSeller" element={<OrderSeller />} />
+
+        </Route>
         <Route path="/order" element={<><Header /><Order /></>} />
         <Route path="/myOrder" element={<><Header /><MyOrder /></>} />
         <Route path="/orders/:id" element={<><Header /><OrderDetail /></>} />
@@ -43,7 +68,7 @@ const Routers = () => {
         <Route path="/shop/:sellerId" element={<><Header /><ShopPages /></>} />
         <Route path="/support" element={<><Support /></>} />
 
-      </Routes>
+      </Routes >
       <Footer />
     </>
   );

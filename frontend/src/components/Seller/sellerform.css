@@ -1,0 +1,11 @@
+.form__seller-info{
+    background-color: #fff;
+    width: 60%;
+    margin: 0 auto;
+}
+.form-container-seller{
+    padding: 2rem;
+}
+.submit-btn-save{
+    margin: 1rem 0;
+}

@@ -1,4 +1,4 @@
-    .loginSeller {
+.loginSeller {
     width: 100%;
     background-color: #fff;
 }
@@ -33,7 +33,7 @@
 }
 
 .loginSeller__container {
-    height: 80vh;
+    height: 90vh;
     display: flex;
     margin: 1rem 0;
 }
@@ -116,7 +116,7 @@
 .loginSeller .social-loginSeller {
     display: flex;
     justify-content: space-between;
-    margin: 20px 0;
+    margin: 15px 0;
 }
 
 .loginSeller .btn-facebook,
@@ -163,7 +163,6 @@
     font-size: 0.9rem;
     text-align: center;
     color: #888;
-    margin: 1rem;
 }
 
 .loginSeller .no-account a {

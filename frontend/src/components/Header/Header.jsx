@@ -1,36 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate , useParams} from 'react-router-dom';
 import './header.css';
 import logo from '../../assets/images/logo/logo.png';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useAppContext } from '../../context/AppContext';
 export const Header = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
   const [cartCount, setCartCount] = useState(0);
-   const { sellerId } = useParams();
+  const { sellerId } = useParams();
 
+  const { user, setUser } = useAppContext();
 
+  // useEffect(() => {
+  //   if (user?.id) {
+  //     axios.get(`http://localhost:3003/api/cart/user/${user.id}`)
+  //       .then((res) => {
+  //         const total = res.data.reduce((acc, item) => acc + item.quantity, 0);
+  //         setCartCount(total);
+  //       })
+  //       .catch((err) => {
+  //         console.error('Lỗi lấy giỏ hàng:', err);
+  //       });
+  //   } else {
+  //     setCartCount(0);
+  //   }
+  // }, [user]);
   useEffect(() => {
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      const parsedUser = JSON.parse(userData);
-      setUser(parsedUser);
-
-      // Fixed URL formatting with backticks
-      axios.get(`http://localhost:3003/api/cart/user/${parsedUser.id}`)
-        .then((res) => {
-      
-          const total = res.data.reduce((acc, item) => acc + item.quantity, 0);
-          setCartCount(total);
-        })
-        .catch((err) => {
-          console.error('Lỗi lấy giỏ hàng:', err);
-        });
-    }
-  }, []);
-
+  if (user?.id) {
+    axios.get(`http://localhost:3003/api/cart/user/${user.id}`)
+      .then((res) => {
+        const items = res.data.items || [];
+        const total = items.reduce((acc, item) => acc + item.quantity, 0);
+        setCartCount(total);
+      })
+      .catch((err) => {
+        console.error('Lỗi lấy giỏ hàng:', err);
+        setCartCount(0);
+      });
+  } else {
+    setCartCount(0);
+  }
+}, [user]);
 
 
   const handleLogout = () => {
@@ -66,6 +77,10 @@ export const Header = () => {
                   <Link to="/customerProfile">
                     <i className="fa-solid fa-user"></i> {user.name}
                   </Link>
+                  <Link to="/myOrder">
+                    Đơn hàng của tôi
+                  </Link>
+
                 </li>
                 <li>
                   <button onClick={handleLogout} className="btn-logout">

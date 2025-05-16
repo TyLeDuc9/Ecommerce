@@ -1,0 +1,75 @@
+.order-admin {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.order-admin h2 {
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.order-admin table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.order-admin th, 
+.order-admin td {
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 14px;
+  color: #444;
+}
+
+.order-admin th {
+  background-color: orangered;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.order-admin tbody tr:hover {
+  background-color: #f1faff;
+}
+
+.order-admin ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.order-admin ul li {
+  display: flex;
+  align-items: center;
+}
+
+.order-admin ul li img {
+  border-radius: 4px;
+  object-fit: cover;
+  height: 40px;
+  width: 40px;
+}
+
+.order-admin ul li span {
+  margin-left: 6px;
+  font-weight: 500;
+  color: #555;
+}
+
+.order-admin ul li span + span {
+  margin-left: 10px;
+  font-weight: normal;
+  color: #777;
+}
+
+

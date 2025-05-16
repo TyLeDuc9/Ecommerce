@@ -1,61 +1,33 @@
 .my-order {
-    padding: 20px;
-    background-color: #f8f8f8;
-  }
-  
-  .order-item {
-    background-color: white;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .order-header {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .order-status {
-    font-weight: bold;
-    color: #f44336;
-  }
-  
-  .order-date {
-    color: #777;
-  }
-  
-  .order-products {
-    margin-top: 10px;
-  }
-  
-  .product {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-  }
-  
-  .order-footer {
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .order-total {
-    font-weight: bold;
-  }
-  
-  .btn-cancel {
-    background-color: #ff5722;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .btn-cancel:hover {
-    background-color: #e64a19;
-  }
-  
+  width: 80%;
+  background-color: #fff;
+  margin: 1rem auto;
+}
+
+.my-order h2 {
+  text-align: center;
+  padding: 1rem 0;
+}
+.my-noOrder{
+  text-align: center;
+  padding: 1rem;
+  background-color: #fff;
+  width: 80%;
+  margin: 2rem auto;
+}
+.order-card {
+  margin-bottom: 24px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+.order-header p, .order-total p{
+  padding: 0.5rem 0;
+  color: black;
+}
+.order-header p>strong, .order-total p>strong{
+  color: red;
+}
+.order-product img{
+  width: 10%;
+}

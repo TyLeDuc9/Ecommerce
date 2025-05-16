@@ -1,10 +1,13 @@
+
 import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import axios from 'axios';
 import './order.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 export const Order = () => {
   const { user } = useAppContext();
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [shippingInfo, setShippingInfo] = useState({
@@ -19,175 +22,168 @@ export const Order = () => {
 
   const transportCosts = {
     GHN: 35000,
-    GHTK: 30000,
-    ViettelPost: 25000,
+    GHTK: 25000,
+    ViettelPost: 30000,
   };
 
+  // Lấy giỏ hàng thật từ backend
   useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const res = await axios.get(`http://localhost:3003/api/cart/user/${user.id}`);
-        setCartItems(res.data);
-        const total = res.data.reduce(
-          (total, item) => total + item.quantity * item.productId.price, 0
-        );
-        setTotalAmount(total);
-      } catch (error) {
-        console.error('Lỗi khi lấy giỏ hàng:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (user?.id) {
-      fetchCart();
+    if (!user?.id) {
+      setCartItems([]);
+      setLoading(false);
+      return;
     }
+    setLoading(true);
+    axios.get(`http://localhost:3003/api/cart/user/${user.id}`)
+      .then((res) => {
+        const cart = res.data;
+        const items = cart.items || [];
+        setCartItems(items);
+
+        // Tính tổng tiền sản phẩm (chưa bao gồm phí vận chuyển)
+        const productTotal = items.reduce(
+          (sum, item) => sum + item.quantity * item.productId.price,
+          0
+        );
+        setTotalAmount(productTotal);
+      })
+      .catch((err) => {
+        console.error('Lỗi lấy giỏ hàng:', err);
+        setCartItems([]);
+        setTotalAmount(0);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [user]);
-  const updateTotalAmount = (newTransportMethod) => {
-    const transportCost = transportCosts[newTransportMethod] || 0;
-    const newTotalAmount = cartItems.reduce(
-      (total, item) => total + item.quantity * item.productId.price, 0
-    ) + transportCost;
-    setTotalAmount(newTotalAmount);
+
+  // Cập nhật tổng tiền khi chọn đơn vị vận chuyển
+  const updateTotalAmount = (method) => {
+    const cost = transportCosts[method] || 0;
+    const productTotal = cartItems.reduce(
+      (sum, item) => sum + item.quantity * item.productId.price,
+      0
+    );
+    setTotalAmount(productTotal + cost);
   };
 
   const handleTransportChange = (e) => {
     setTransportMethod(e.target.value);
     updateTotalAmount(e.target.value);
   };
+
+
   const handleOrderSubmit = async () => {
-    try {
-      const paymentRes =  await axios.get(`http://localhost:3007/api/payment/method/${paymentMethod}`);
-      const paymentData = Array.isArray(paymentRes.data) ? paymentRes.data[0] : paymentRes.data;
-      const transportRes = await axios.get(`http://localhost:3005/api/transport/method/${transportMethod}`);
-      const transportData = Array.isArray(transportRes.data) ? transportRes.data[0] : transportRes.data;
-      if (!paymentData?._id || !transportData?._id) {
-        alert('Không tìm thấy phương thức thanh toán hoặc vận chuyển hợp lệ');
-        return;
-      }
-      const orderData = {
-        totalOrder: totalAmount,
-        customerId: user.id,
-        paymentId: paymentData._id,
-        shippingInfo,
-        transportId: transportData._id,
-        status: 'pending',
-        userId: user.id,
+  if (!shippingInfo.name || !shippingInfo.phone || !shippingInfo.province || !shippingInfo.address) {
+    alert('Vui lòng điền đầy đủ thông tin địa chỉ nhận hàng.');
+    return;
+  }
+  if (!paymentMethod) {
+    alert('Vui lòng chọn phương thức thanh toán.');
+    return;
+  }
+  if (!transportMethod) {
+    alert('Vui lòng chọn đơn vị vận chuyển.');
+    return;
+  }
+  if (cartItems.length === 0) {
+    alert('Giỏ hàng đang trống.');
+    return;
+  }
 
-      };
-      const orderRes = await axios.post('http://localhost:4000/api/order/create', orderData);
-      console.log("Phản hồi từ API tạo đơn hàng:", orderRes.data);
-      const order = orderRes.data.order;
-      const orderId = order._id;
+  try {
+    // Lấy paymentId
+    const paymentRes = await axios.get(`http://localhost:3007/api/payment/method/${paymentMethod}`);
+    const paymentData = Array.isArray(paymentRes.data) ? paymentRes.data[0] : paymentRes.data;
 
-      if (!orderId) {
-        alert('Không tìm thấy ID đơn hàng.');
-        return;
-      }
+    // Lấy transportId
+    const transportRes = await axios.get(`http://localhost:3005/api/transport/method/${transportMethod}`);
+    const transportData = Array.isArray(transportRes.data) ? transportRes.data[0] : transportRes.data;
 
-      for (const item of cartItems) {
-        const orderDetailsData = {
-          orderId: orderId,
-          productId: item.productId._id,
-          quantity: item.quantity,
-          totalPrice: item.quantity * item.productId.price,
-        };
-        console.log("Dữ liệu chi tiết đơn hàng:", orderDetailsData);
-
-        await axios.post('http://localhost:4001/api/orderDetails/create', orderDetailsData);
-      }
-
-      alert('Đặt hàng thành công!');
-    } catch (error) {
-      console.error('Lỗi khi tạo đơn hàng:', error);
-      if (error.response) {
-        alert(`Lỗi: ${error.response.data.message || 'Có lỗi xảy ra, vui lòng thử lại!'}`);
-
-      } else {
-        alert('Đặt hàng không thành công, vui lòng kiểm tra kết nối.');
-      }
+    if (!paymentData?._id || !transportData?._id) {
+      alert('Không tìm thấy phương thức thanh toán hoặc vận chuyển hợp lệ');
+      return;
     }
-  };
+
+    const orderData = {
+      totalOrder: totalAmount,
+      customerId: user.id,
+      paymentId: paymentData._id,
+      shippingInfo,
+      transportId: transportData._id,
+      status: 'pending',
+      userId: user.id,
+    };
+    console.log('Gửi orderData:', orderData);
+
+    const orderRes = await axios.post('http://localhost:4000/api/order/create', orderData);
+    console.log('orderRes.data:', orderRes.data);
+    const orderId = orderRes.data.order?._id;
+    if (!orderId) {
+      alert('Không tìm thấy ID đơn hàng.');
+      return;
+    }
+
+    for (const item of cartItems) {
+      const orderDetailsData = {
+        orderId,
+        productId: item.productId._id,
+        quantity: item.quantity,
+        totalPrice: item.quantity * item.productId.price,
+      };
+      console.log('Gửi orderDetailsData:', orderDetailsData);
+      await axios.post('http://localhost:4001/api/orderDetails/create', orderDetailsData);
+    }
+
+    // await axios.delete(`http://localhost:3003/api/cart/deleteAllCartByUser/${user.id}`);
+
+    alert('Đặt hàng thành công!');
+    navigate('/myOrder');
+  } catch (error) {
+    if (error.response) {
+      console.error('Lỗi response:', error.response.data);
+      alert('Đặt hàng không thành công: ' + (error.response.data.message || 'Vui lòng thử lại.'));
+    } else {
+      console.error('Lỗi khi tạo đơn hàng:', error);
+      alert('Đặt hàng không thành công. Vui lòng thử lại.');
+    }
+  }
+};
+
+
   return (
     <div className="payment-container">
       <div className="address-section">
         <h3>Địa chỉ nhận hàng</h3>
-        <form className="address-form">
-          <input
-            type="text"
-            placeholder="Họ và tên"
-            name="name"
-            value={shippingInfo.name}
-            onChange={(e) => setShippingInfo({ ...shippingInfo, name: e.target.value })}
-            required
-          />
-          <input
-            type="number"
-            placeholder="Phone"
-            name="phone"
-            value={shippingInfo.phone}
-            onChange={(e) => setShippingInfo({ ...shippingInfo, phone: e.target.value })}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Tỉnh / Thành phố"
-            name="province"
-            value={shippingInfo.province}
-            onChange={(e) => setShippingInfo({ ...shippingInfo, province: e.target.value })}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Địa chỉ chi tiết"
-            name="address"
-            value={shippingInfo.address}
-            onChange={(e) => setShippingInfo({ ...shippingInfo, address: e.target.value })}
-            required
-          />
+        <form className="address-form" onSubmit={e => e.preventDefault()}>
+          <input type="text" placeholder="Họ và tên" value={shippingInfo.name} onChange={(e) => setShippingInfo({ ...shippingInfo, name: e.target.value })} required />
+          <input type="tel" placeholder="Số điện thoại" value={shippingInfo.phone} onChange={(e) => setShippingInfo({ ...shippingInfo, phone: e.target.value })} required />
+          <input type="text" placeholder="Tỉnh / Thành phố" value={shippingInfo.province} onChange={(e) => setShippingInfo({ ...shippingInfo, province: e.target.value })} required />
+          <input type="text" placeholder="Địa chỉ chi tiết" value={shippingInfo.address} onChange={(e) => setShippingInfo({ ...shippingInfo, address: e.target.value })} required />
         </form>
       </div>
 
       <div className="payment-method-section">
         <h3>Phương thức thanh toán</h3>
         <label>
-          <input
-            type="radio"
-            name="paymentMethod"
-            value="cod"
-            onChange={(e) => setPaymentMethod(e.target.value)}
-          />
+          <input type="radio" name="paymentMethod" value="cod" onChange={(e) => setPaymentMethod(e.target.value)} />
           Thanh toán khi nhận hàng (COD)
         </label>
       </div>
 
       <div className="transport-method">
+        <h3>Chọn đơn vị vận chuyển</h3>
         <label>
-          <input
-            type="radio"
-            name="transportMethod"
-            value="GHN"
-            onChange={handleTransportChange}
-          />
-          GHN: 35000 Đ
+          <input type="radio" name="transportMethod" value="GHN" onChange={handleTransportChange} />
+          GHN: 35.000 đ
         </label>
         <label>
-          <input
-            type="radio"
-            name="transportMethod"
-            value="GHTK"
-            onChange={handleTransportChange}
-          />
-          GHTK: 30000 Đ
+          <input type="radio" name="transportMethod" value="GHTK" onChange={handleTransportChange} />
+          GHTK: 25.000 đ
         </label>
         <label>
-          <input
-            type="radio"
-            name="transportMethod"
-            value="ViettelPost"
-            onChange={handleTransportChange}
-          />
-          Viettel Post: 25000 Đ
+          <input type="radio" name="transportMethod" value="ViettelPost" onChange={handleTransportChange} />
+          Viettel Post: 30.000 đ
         </label>
       </div>
 
@@ -196,7 +192,7 @@ export const Order = () => {
         {loading ? (
           <p>Đang tải...</p>
         ) : cartItems.length === 0 ? (
-          <p>Giỏ hàng trống</p>
+          <p>Không có sản phẩm.</p>
         ) : (
           cartItems.map((item) => (
             <div className="summary-item" key={item._id}>
@@ -214,7 +210,9 @@ export const Order = () => {
       <div className="payment-summary">
         <h3>Tổng thanh toán</h3>
         <p>{totalAmount.toLocaleString()} đ</p>
-        <button className="btn-confirm" onClick={handleOrderSubmit}>Đặt hàng</button>
+        <button className="btn-confirm" onClick={handleOrderSubmit} disabled={loading}>
+          Đặt hàng
+        </button>
       </div>
     </div>
   );

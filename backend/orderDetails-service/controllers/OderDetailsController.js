@@ -1,54 +1,39 @@
+const mongoose = require('mongoose');
 const OrderDetails = require('../models/OrderDetailsModel');
-
-// exports.createOrderDetails = async (req, res) => {
-//     try {
-//         const { orderId, productId, quantity, totalPrice } = req.body;
-//         console.log("Dữ liệu OrderDetails nhận được:", req.body); 
-//         const newOrderDetails = new OrderDetails({ orderId, productId, quantity, totalPrice });
-//         await newOrderDetails.save();
-
-//         res.status(201).json({
-//             message: 'Order Details created successfully',
-//             orderDetails: newOrderDetails,
-//         });
-//     } catch (error) {
-//         console.error('Error creating OrderDetails:', error);
-//         res.status(500).json({ message: error.message });
-//     }
-// };
+const Seller = require('../../seller-service/models/SellerModels');
 exports.createOrderDetails = async (req, res) => {
-  try {
-    const { orderId, productId, quantity, totalPrice } = req.body;
+    try {
+        const { orderId, productId, quantity, totalPrice } = req.body;
 
-    // In ra dữ liệu để kiểm tra
-    console.log("Dữ liệu nhận được từ frontend:", req.body);
+        // In ra dữ liệu để kiểm tra
+        console.log("Dữ liệu nhận được từ frontend:", req.body);
 
-    const newOrderDetails = new OrderDetails({
-      orderId,
-      productId,
-      quantity,
-      totalPrice,
-    });
+        const newOrderDetails = new OrderDetails({
+            orderId,
+            productId,
+            quantity,
+            totalPrice,
+        });
 
-    // Lưu OrderDetails vào database
-    await newOrderDetails.save();
+        // Lưu OrderDetails vào database
+        await newOrderDetails.save();
 
-    res.status(201).json({
-      message: 'Order Details created successfully',
-      orderDetails: newOrderDetails,
-    });
-  } catch (error) {
-    console.error('Error creating OrderDetails:', error);
-    res.status(500).json({ message: error.message });
-  }
+        res.status(201).json({
+            message: 'Order Details created successfully',
+            orderDetails: newOrderDetails,
+        });
+    } catch (error) {
+        console.error('Error creating OrderDetails:', error);
+        res.status(500).json({ message: error.message });
+    }
 };
 
 exports.getAllOrderDetails = async (req, res) => {
     try {
         const orderDetails = await OrderDetails.find()
-            .populate('orderId')
-            .populate('productId')
-            .populate('paymentId');
+            .populate('orderId', 'quantity')
+            .populate('productId', 'name image quantity')
+
 
         res.status(200).json(orderDetails);
     } catch (error) {
@@ -61,7 +46,7 @@ exports.getOrderDetailsById = async (req, res) => {
         const orderDetails = await OrderDetails.findById(req.params.id)
             .populate('orderId')
             .populate('productId')
-            .populate('paymentId');
+
 
         if (!orderDetails) {
             return res.status(404).json({ message: 'Order Details not found' });
@@ -74,10 +59,10 @@ exports.getOrderDetailsById = async (req, res) => {
 
 exports.updateOrderDetails = async (req, res) => {
     try {
-        const { orderId, productId,  quantity, totalPrice } = req.body;
+        const { orderId, productId, quantity, totalPrice } = req.body;
         const orderDetails = await OrderDetails.findByIdAndUpdate(
             req.params.id,
-            { orderId, productId,  quantity, totalPrice },
+            { orderId, productId, quantity, totalPrice },
             { new: true }
         );
 
@@ -103,6 +88,22 @@ exports.deleteOrderDetails = async (req, res) => {
 
         res.status(200).json({ message: 'Order Details deleted successfully' });
     } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+exports.getOrderDetailsByOrderId = async (req, res) => {
+    try {
+        const { orderId } = req.params;
+        const orderDetails = await OrderDetails.find({ orderId }).populate('productId')
+        //   .populate('orderId') 
+
+        if (!orderDetails || orderDetails.length === 0) {
+            return res.status(404).json({ message: 'No order details found for this order' });
+        }
+
+        res.status(200).json(orderDetails);
+    } catch (error) {
+        console.error('Error fetching order details by orderId:', error);
         res.status(500).json({ message: error.message });
     }
 };

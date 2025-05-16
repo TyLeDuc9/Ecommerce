@@ -1,12 +1,14 @@
-
 const Seller = require('../models/SellerModels');
-const User = require('../../user-service/models/UserModel');
+const User = require("../../user-service/models/UserModel");
+const Order = require("../../order-service/models/OrderModel");
+const Product = require("../../product-service/models/ProductsModels");
+const OrderDetails = require("../../orderDetails-service/models/OrderDetailsModel");
 const cloudinary = require('cloudinary').v2;
-
-// Tạo mới một seller (người bán)
+const mongoose = require('mongoose');
 exports.createSeller = async (req, res) => {
   try {
     const { storeName, storeAddress, phone, userId } = req.body;
+    console.log('Request Body:', req.body);
     let imageUrls = [];
 
     if (req.files && req.files.length > 0) {
@@ -23,7 +25,7 @@ exports.createSeller = async (req, res) => {
       storeAddress,
       phone,
       image: imageUrls,
-      userId, // Liên kết với User (Customer)
+      userId,
     });
 
     await newSeller.save();
@@ -36,8 +38,6 @@ exports.createSeller = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-// Lấy tất cả sellers
 exports.getAllSellers = async (req, res) => {
   try {
     const sellers = await Seller.find().populate('userId'); // Liên kết với bảng User
@@ -49,11 +49,10 @@ exports.getAllSellers = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-// Lấy seller theo ID
 exports.getSellerById = async (req, res) => {
   try {
-    const seller = await Seller.findById(req.params.id).populate('userId');
+    // const seller = await Seller.findById(req.params.id).populate('userId');
+    const seller = await Seller.findById(req.params.id)
     if (!seller) {
       return res.status(404).json({ message: 'Seller not found' });
     }
@@ -62,8 +61,21 @@ exports.getSellerById = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+exports.getSellerByUserId = async (req, res) => {
+  try {
+    const userId = new mongoose.Types.ObjectId(req.params.userId);
 
-// Cập nhật thông tin seller
+    const seller = await Seller.findOne({ userId: userId });
+
+    if (!seller) {
+      return res.status(404).json({ message: 'Không tìm thấy người bán.' });
+    }
+
+    res.status(200).json(seller);
+  } catch (err) {
+    res.status(500).json({ message: 'Lỗi server.', error: err.message });
+  }
+};
 exports.updateSeller = async (req, res) => {
   try {
     const { storeName, storeAddress, phone } = req.body;
@@ -93,8 +105,6 @@ exports.updateSeller = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-// Xóa seller
 exports.deleteSeller = async (req, res) => {
   try {
     const seller = await Seller.findByIdAndDelete(req.params.id);
@@ -108,15 +118,3 @@ exports.deleteSeller = async (req, res) => {
   }
 };
 
-// Lấy tất cả sellers của một user cụ thể
-exports.getSellerByUserId = async (req, res) => {
-  try {
-    const seller = await Seller.findOne({ userId: req.params.userId }).populate('userId');
-    if (!seller) {
-      return res.status(404).json({ message: 'Seller not found for this user' });
-    }
-    res.status(200).json(seller);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};

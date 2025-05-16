@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Order = mongoose.model('Order', require('../../order-service/models/OrderModel').schema);
 const Product = mongoose.model('Product', require('../../product-service/models/ProductsModels').schema);
-const Payment = mongoose.model('Payment', require('../../payment-service/models/PaymentModel').schema);
 const orderDetailsSchema = new mongoose.Schema({
     orderId: {
         type: mongoose.Schema.Types.ObjectId,

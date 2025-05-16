@@ -7,6 +7,7 @@ router.get('/search', ProductController.searchProductName);
 router.get('/sort', ProductController.sortProduct);
 router.get('/all', ProductController.getAllProducts);
 router.get('/:id', ProductController.getProductById);
+router.get('/:productId/related', ProductController.getRelatedProducts);
 router.get('/sellers/:sellerId', ProductController.getProductsBySeller);
 router.get('/seller/:productId', ProductController.getProductDetails);
 router.post('/create', authenticate,authorizeRoles('admin', 'seller'), upload.array('image', 6), ProductController.createProduct);

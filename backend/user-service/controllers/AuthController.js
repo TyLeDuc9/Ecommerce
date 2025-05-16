@@ -64,3 +64,38 @@ exports.getLoggedInUser = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select('-password'); 
+    res.status(200).json({ users });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+exports.searchUsersByName = async (req, res) => {
+  try {
+    const { name } = req.query;
+    if (!name) return res.status(400).json({ message: 'Missing name parameter' });
+
+    const users = await User.find({
+      name: { $regex: name, $options: 'i' }  // tìm gần đúng, không phân biệt hoa thường
+    }).select('-password');
+
+    res.status(200).json({ users });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+exports.sortUsersByName = async (req, res) => {
+  try {
+    const order = req.query.order === 'desc' ? -1 : 1; // mặc định asc
+    const users = await User.find()
+      .collation({ locale: 'vi', strength: 1 }) // để sắp xếp theo chuẩn tiếng Việt
+      .sort({ name: order })
+      .select('-password'); // không trả về password
+
+    res.status(200).json({ users });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

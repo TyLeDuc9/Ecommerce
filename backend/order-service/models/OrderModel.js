@@ -3,6 +3,7 @@ const Customer = mongoose.model('Customer', require('../../customer-service/mode
 const Discount = mongoose.model('Discount', require('../../discount-service/models/DiscountModel').schema);
 const Payment = mongoose.model('Payment', require('../../payment-service/models/PaymentModel').schema);
 const Transport = mongoose.model('Transport', require('../../transport-service/models/TransportModel').schema);
+const User = mongoose.model('User', require('../../user-service/models/UserModel').schema);
 const orderSchema = new mongoose.Schema({
     totalOrder: {
         type: Number,

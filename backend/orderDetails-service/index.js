@@ -14,6 +14,7 @@ app.use('/api/orderDetails', orderDetailsRoutes);
 const PORT = process.env.PORT || 5000;
 const MONGO_URL = process.env.MONGO_URL;
 
+console.log('Connecting to MongoDB with URL:', MONGO_URL);
 mongoose
   .connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -22,4 +23,6 @@ mongoose
       console.log(`Server is running on port: ${PORT}`);
     });
   })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    console.error("DB connection error:", err);
+  });

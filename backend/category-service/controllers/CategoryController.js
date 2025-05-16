@@ -104,11 +104,9 @@ exports.deleteCategory = async (req, res) => {
 exports.searchCategoryName = async (req, res) => {
     try {
         const { name } = req.query;
-        const nameCode = name.toLowerCase();
         const category = await Category.find({
-            name: { $regex: nameCode, $options: 'i' }
-        });
-
+            name: { $regex: name, $options: 'i' }
+        }).collation({ locale: 'vi', strength: 1 }); 
         res.status(200).json(category);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -118,11 +116,14 @@ exports.searchCategoryName = async (req, res) => {
 // Sắp xếp danh mục
 exports.sortCategory = async (req, res) => {
     try {
+        const order = req.query.order === 'desc' ? -1 : 1;
         const category = await Category.find()
             .collation({ locale: 'vi', strength: 1 })
-            .sort({ name: -1 });
+            // .sort({ name: -1 });
+              .sort({ name: order });
         res.json(category);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+

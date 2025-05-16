@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-
-// Định nghĩa schema cho Seller
+const User = mongoose.model('User', require('../../user-service/models/UserModel').schema);
 const sellerSchema = new mongoose.Schema({
     storeName: {
         type: String,
@@ -19,8 +18,9 @@ const sellerSchema = new mongoose.Schema({
         required: true,
     },
     userId: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 }, { timestamps: true });
 

@@ -1,40 +1,6 @@
-const Order = require('../models/OrderModel'); 
-const OrderDetails = require('../../orderDetails-service/models/OrderDetailsModel'); 
+const Order = require('../models/OrderModel');
+const OrderDetails = require('../../orderDetails-service/models/OrderDetailsModel');
 
-// exports.createOrder = async (req, res) => {
-//   try {
-//     console.log("➡️ Dữ liệu từ frontend:", req.body);
-//     const { totalOrder, discountId, customerId, paymentId, status, shippingInfo, transportId, userId } = req.body;
-//     const transportCosts = {
-//       GHN: 35000,
-//       GHTK: 30000,
-//       ViettelPost: 25000,
-//     };
-//     const transportCost = transportCosts[transportId] || 0;
-//     const finalTotal = totalOrder + transportCost;
-
-//     const newOrder = new Order({
-//       totalOrder: finalTotal,
-//       status,
-//       shippingInfo,
-//       discountId,
-//       customerId,
-//       paymentId,
-//       transportId,
-//       userId,
-//     });
-
-//     await newOrder.save();
-//     console.log("✅ Đơn hàng đã lưu:", savedOrder);
-//     res.status(201).json({
-//       message: 'Order created successfully',
-//       order: newOrder,
-//     });
-//   } catch (error) {
-//     console.error('Error creating order:', error);
-//     res.status(500).json({ message: error.message });
-//   }
-// };
 exports.createOrder = async (req, res) => {
   try {
     console.log("➡️ Dữ liệu từ frontend:", req.body);
@@ -78,10 +44,10 @@ exports.getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
       .populate('discountId')
-      .populate('customerId')
-      .populate('paymentId')
-      .populate('transportId')
-      .populate('userId')
+      .populate('customerId', "fullName")
+      .populate('paymentId', 'paymentMethod')
+      .populate('transportId', 'shippingCarrier fee')
+      .populate('userId', 'name')
 
     res.status(200).json(orders);
   } catch (error) {
@@ -184,3 +150,45 @@ exports.updateOrderTransport = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+exports.getOrdersByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;  
+    const orders = await Order.find({ userId })
+      .populate('discountId')
+      .populate('customerId')
+      .populate('paymentId')
+      .populate('transportId')
+      .populate('userId');
+
+    if (!orders.length) {
+       console.log("Không tìm thấy đơn hàng."); 
+      return res.status(404).json({ message: 'No orders found for this user' });
+    }
+
+    res.status(200).json(orders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+exports.cancelOrder = async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+    order.status = 'Cancelled';
+    await order.save();
+
+    res.status(200).json({
+      message: 'Order cancelled successfully',
+      order,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+

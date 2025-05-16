@@ -1,0 +1,48 @@
+
+.product-admin {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.product-admin h2 {
+  text-align: center;
+  margin-bottom: 18px;
+  color: #222;
+}
+
+.product-admin table {
+  width: 100%;
+  border-collapse: collapse; /* Để ô liền nhau */
+  font-size: 14px;
+  color: #333;
+}
+
+.product-admin thead tr {
+  background-color: orangered;
+  color: #ecf0f1;
+}
+
+.product-admin th,
+.product-admin td {
+  padding: 10px 12px;
+  border: 1px solid #bdc3c7; /* kẻ viền các cột và hàng */
+  text-align: left;
+}
+
+.product-admin tbody tr:hover {
+  background-color: #f0f8ff;
+}
+
+.product-admin img {
+  border-radius: 4px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+  display: block;
+  max-width: 60px;
+  max-height: 60px;
+  object-fit: cover;
+}

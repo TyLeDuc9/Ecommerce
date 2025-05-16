@@ -30,7 +30,7 @@ const productSchema = new mongoose.Schema({
     },
     categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    sellerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Seller' },
+    sellerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Seller',required: true },
 }, { timestamps: true });
 
 module.exports = mongoose.model("Product", productSchema);

@@ -18,7 +18,7 @@ const OrderDetail = () => {
 
   return (
     <div>
-      <h2>Chi tiết đơn hàng #{order._id}</h2>
+      <h2>Chi tiết đơn hàng {order._id}</h2>
       <p><strong>Khách hàng:</strong> {order.customerId?.name}</p>
       <p><strong>Tổng tiền:</strong> {order.totalOrder.toLocaleString()}₫</p>
       <p><strong>Trạng thái:</strong> {order.status}</p>

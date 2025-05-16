@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import './sellerlogin.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,7 +8,7 @@ import axios from 'axios';
 import { useAppContext } from '../../context/AppContext';
 
 export const SellerLogin = () => {
-   const { setCustomer, setSeller } = useAppContext();
+  const { handleSellerLogin } = useAppContext();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -32,26 +33,35 @@ export const SellerLogin = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
-  
+
     try {
       const res = await axios.post('http://localhost:4005/api/auth/login', formData);
-  
+      const user = res.data.user;
+      const token = res.data.token;
 
-      if (res.data.user.role === 'seller') {
-        navigate('/seller');
+      if (!user || !token) {
+        alert('Đăng nhập thất bại: Không nhận được thông tin người dùng');
+        return;
+      }
+
+      if (user.role === 'seller') {
+        handleSellerLogin(user, token);
+        setTimeout(() => navigate('/seller'), 100);
       } else {
-        alert('Tài khoản của bạn chưa đăng ký'); 
+        alert('Tài khoản của bạn chưa đăng ký quyền người bán.');
         navigate('/');
       }
     } catch (err) {
-      alert(err.response?.data?.message || 'Đăng nhập thất bại');
+      console.error('Login error:', err);
+      console.log(' err.response:', err.response);
+      alert(err.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra thông tin và thử lại.');
     }
   };
-  
+
+
   return (
     <div className="loginSeller">
       <header className="loginSeller__header">
