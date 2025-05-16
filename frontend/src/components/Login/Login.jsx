@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import React, { useState } from 'react';
 // import { Link, useNavigate } from 'react-router-dom';
 // import axios from 'axios';
@@ -97,12 +98,17 @@
 //     </div>
 //   );
 // };
+=======
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './login.css';
 import logo from '../../assets/images/logo/logo.png';
+<<<<<<< HEAD
 import { useAppContext } from '../../context/AppContext'; // ⬅️ Thêm dòng này
+=======
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -112,8 +118,11 @@ export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   const { handleLogin } = useAppContext(); // ⬅️ Lấy hàm từ context
 
+=======
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
   const togglePassword = () => setShowPassword(!showPassword);
 
   const handleChange = (e) => {
@@ -125,9 +134,15 @@ export const Login = () => {
     try {
       const res = await axios.post('http://localhost:4005/api/auth/login', formData);
       const { token, user } = res.data;
+<<<<<<< HEAD
 
       handleLogin(user, token); // ⬅️ Dùng context để cập nhật user và token
       navigate('/');            // Chuyển trang sau khi cập nhật
+=======
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      navigate('/'); 
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
     } catch (error) {
       console.error('Lỗi đăng nhập:', error.response?.data?.message || error.message);
       alert(error.response?.data?.message || 'Đăng nhập thất bại');

@@ -11,6 +11,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+<<<<<<< HEAD
+=======
+    "axios": "^1.6.7",
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",

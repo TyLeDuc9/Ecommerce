@@ -3,8 +3,11 @@
     background-color: white;
     display: flex;
     justify-content: center;
+<<<<<<< HEAD
     width: 50%;
     margin: 1rem auto;
+=======
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
   }
   
   .form-container {
@@ -19,7 +22,11 @@
     display: flex;
     flex-direction: column;
   }
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
   .form-label {
     font-size: 16px;
     font-weight: 500;

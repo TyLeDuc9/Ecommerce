@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 .loginSeller {
+=======
+    .loginSeller {
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
     width: 100%;
     background-color: #fff;
 }
@@ -33,7 +37,11 @@
 }
 
 .loginSeller__container {
+<<<<<<< HEAD
     height: 90vh;
+=======
+    height: 80vh;
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
     display: flex;
     margin: 1rem 0;
 }
@@ -116,7 +124,11 @@
 .loginSeller .social-loginSeller {
     display: flex;
     justify-content: space-between;
+<<<<<<< HEAD
     margin: 15px 0;
+=======
+    margin: 20px 0;
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
 }
 
 .loginSeller .btn-facebook,
@@ -163,6 +175,10 @@
     font-size: 0.9rem;
     text-align: center;
     color: #888;
+<<<<<<< HEAD
+=======
+    margin: 1rem;
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
 }
 
 .loginSeller .no-account a {

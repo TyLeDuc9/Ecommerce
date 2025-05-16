@@ -1,4 +1,5 @@
 .seller-layout {
+<<<<<<< HEAD
   display: flex;
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
@@ -79,3 +80,66 @@
 .logout-btn i {
   margin-right: 5px;
 }
+=======
+    display: flex;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .seller-sidebar {
+    width: 220px;
+    background: #f7442e;
+    color: white;
+    padding: 20px;
+  }
+  
+  .seller-sidebar h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+  
+  .seller-sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .seller-sidebar ul li {
+    margin: 15px 0;
+  }
+  
+  .seller-sidebar a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .seller-main {
+    flex: 1;
+    background: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .seller-header {
+    height: 60px;
+    background: white;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .seller-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin-left: 10px;
+  }
+  
+  .seller-content {
+    padding: 20px;
+  }
+  .seller-header-actions i{
+    padding-left: 0.5rem;
+  }
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6

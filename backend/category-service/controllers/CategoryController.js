@@ -104,9 +104,17 @@ exports.deleteCategory = async (req, res) => {
 exports.searchCategoryName = async (req, res) => {
     try {
         const { name } = req.query;
+<<<<<<< HEAD
         const category = await Category.find({
             name: { $regex: name, $options: 'i' }
         }).collation({ locale: 'vi', strength: 1 }); 
+=======
+        const nameCode = name.toLowerCase();
+        const category = await Category.find({
+            name: { $regex: nameCode, $options: 'i' }
+        });
+
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
         res.status(200).json(category);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -116,14 +124,23 @@ exports.searchCategoryName = async (req, res) => {
 // Sắp xếp danh mục
 exports.sortCategory = async (req, res) => {
     try {
+<<<<<<< HEAD
         const order = req.query.order === 'desc' ? -1 : 1;
         const category = await Category.find()
             .collation({ locale: 'vi', strength: 1 })
             // .sort({ name: -1 });
               .sort({ name: order });
+=======
+        const category = await Category.find()
+            .collation({ locale: 'vi', strength: 1 })
+            .sort({ name: -1 });
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
         res.json(category);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+<<<<<<< HEAD
 
+=======
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6

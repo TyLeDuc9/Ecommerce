@@ -45,4 +45,7 @@ export const Product = () => {
     </section>
   );
 };
+<<<<<<< HEAD
 
+=======
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6

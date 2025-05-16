@@ -1,6 +1,46 @@
+<<<<<<< HEAD
 const Order = require('../models/OrderModel');
 const OrderDetails = require('../../orderDetails-service/models/OrderDetailsModel');
 
+=======
+const Order = require('../models/OrderModel'); 
+const OrderDetails = require('../../orderDetails-service/models/OrderDetailsModel'); 
+
+// exports.createOrder = async (req, res) => {
+//   try {
+//     console.log("➡️ Dữ liệu từ frontend:", req.body);
+//     const { totalOrder, discountId, customerId, paymentId, status, shippingInfo, transportId, userId } = req.body;
+//     const transportCosts = {
+//       GHN: 35000,
+//       GHTK: 30000,
+//       ViettelPost: 25000,
+//     };
+//     const transportCost = transportCosts[transportId] || 0;
+//     const finalTotal = totalOrder + transportCost;
+
+//     const newOrder = new Order({
+//       totalOrder: finalTotal,
+//       status,
+//       shippingInfo,
+//       discountId,
+//       customerId,
+//       paymentId,
+//       transportId,
+//       userId,
+//     });
+
+//     await newOrder.save();
+//     console.log("✅ Đơn hàng đã lưu:", savedOrder);
+//     res.status(201).json({
+//       message: 'Order created successfully',
+//       order: newOrder,
+//     });
+//   } catch (error) {
+//     console.error('Error creating order:', error);
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
 exports.createOrder = async (req, res) => {
   try {
     console.log("➡️ Dữ liệu từ frontend:", req.body);
@@ -44,10 +84,17 @@ exports.getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
       .populate('discountId')
+<<<<<<< HEAD
       .populate('customerId', "fullName")
       .populate('paymentId', 'paymentMethod')
       .populate('transportId', 'shippingCarrier fee')
       .populate('userId', 'name')
+=======
+      .populate('customerId')
+      .populate('paymentId')
+      .populate('transportId')
+      .populate('userId')
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
 
     res.status(200).json(orders);
   } catch (error) {
@@ -149,6 +196,7 @@ exports.updateOrderTransport = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+<<<<<<< HEAD
 };
 exports.getOrdersByUserId = async (req, res) => {
   try {
@@ -192,3 +240,6 @@ exports.cancelOrder = async (req, res) => {
   }
 };
 
+=======
+};
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'antd';
+<<<<<<< HEAD
 import { Link, useNavigate , useParams} from 'react-router-dom';
 import './header.css';
 import logo from '../../assets/images/logo/logo.png';
@@ -42,6 +43,39 @@ export const Header = () => {
     setCartCount(0);
   }
 }, [user]);
+=======
+import { Link, useNavigate } from 'react-router-dom';
+import './header.css';
+import logo from '../../assets/images/logo/logo.png';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+export const Header = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [cartCount, setCartCount] = useState(0);
+   const { sellerId } = useParams();
+
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      const parsedUser = JSON.parse(userData);
+      setUser(parsedUser);
+
+      // Fixed URL formatting with backticks
+      axios.get(`http://localhost:3003/api/cart/user/${parsedUser.id}`)
+        .then((res) => {
+      
+          const total = res.data.reduce((acc, item) => acc + item.quantity, 0);
+          setCartCount(total);
+        })
+        .catch((err) => {
+          console.error('Lỗi lấy giỏ hàng:', err);
+        });
+    }
+  }, []);
+
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
 
 
   const handleLogout = () => {
@@ -77,10 +111,13 @@ export const Header = () => {
                   <Link to="/customerProfile">
                     <i className="fa-solid fa-user"></i> {user.name}
                   </Link>
+<<<<<<< HEAD
                   <Link to="/myOrder">
                     Đơn hàng của tôi
                   </Link>
 
+=======
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
                 </li>
                 <li>
                   <button onClick={handleLogout} className="btn-logout">

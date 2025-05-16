@@ -1,13 +1,22 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
 import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import axios from 'axios';
 import './order.css';
+<<<<<<< HEAD
 import { useNavigate } from 'react-router-dom';
 
 export const Order = () => {
   const { user } = useAppContext();
   const navigate = useNavigate();
+=======
+import { Link, useNavigate } from 'react-router-dom';
+export const Order = () => {
+  const { user } = useAppContext();
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [shippingInfo, setShippingInfo] = useState({
@@ -22,6 +31,7 @@ export const Order = () => {
 
   const transportCosts = {
     GHN: 35000,
+<<<<<<< HEAD
     GHTK: 25000,
     ViettelPost: 30000,
   };
@@ -65,12 +75,45 @@ export const Order = () => {
       0
     );
     setTotalAmount(productTotal + cost);
+=======
+    GHTK: 30000,
+    ViettelPost: 25000,
+  };
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const res = await axios.get(`http://localhost:3003/api/cart/user/${user.id}`);
+        setCartItems(res.data);
+        const total = res.data.reduce(
+          (total, item) => total + item.quantity * item.productId.price, 0
+        );
+        setTotalAmount(total);
+      } catch (error) {
+        console.error('Lỗi khi lấy giỏ hàng:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user?.id) {
+      fetchCart();
+    }
+  }, [user]);
+  const updateTotalAmount = (newTransportMethod) => {
+    const transportCost = transportCosts[newTransportMethod] || 0;
+    const newTotalAmount = cartItems.reduce(
+      (total, item) => total + item.quantity * item.productId.price, 0
+    ) + transportCost;
+    setTotalAmount(newTotalAmount);
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
   };
 
   const handleTransportChange = (e) => {
     setTransportMethod(e.target.value);
     updateTotalAmount(e.target.value);
   };
+<<<<<<< HEAD
 
 
   const handleOrderSubmit = async () => {
@@ -151,27 +194,128 @@ export const Order = () => {
 };
 
 
+=======
+  const handleOrderSubmit = async () => {
+    try {
+      const paymentRes =  await axios.get(`http://localhost:3007/api/payment/method/${paymentMethod}`);
+      const paymentData = Array.isArray(paymentRes.data) ? paymentRes.data[0] : paymentRes.data;
+      const transportRes = await axios.get(`http://localhost:3005/api/transport/method/${transportMethod}`);
+      const transportData = Array.isArray(transportRes.data) ? transportRes.data[0] : transportRes.data;
+      if (!paymentData?._id || !transportData?._id) {
+        alert('Không tìm thấy phương thức thanh toán hoặc vận chuyển hợp lệ');
+        return;
+      }
+      const orderData = {
+        totalOrder: totalAmount,
+        customerId: user.id,
+        paymentId: paymentData._id,
+        shippingInfo,
+        transportId: transportData._id,
+        status: 'pending',
+        userId: user.id,
+
+      };
+      const orderRes = await axios.post('http://localhost:4000/api/order/create', orderData);
+      console.log("Phản hồi từ API tạo đơn hàng:", orderRes.data);
+      const order = orderRes.data.order;
+      const orderId = order._id;
+
+      if (!orderId) {
+        alert('Không tìm thấy ID đơn hàng.');
+        return;
+      }
+
+      for (const item of cartItems) {
+        const orderDetailsData = {
+          orderId: orderId,
+          productId: item.productId._id,
+          quantity: item.quantity,
+          totalPrice: item.quantity * item.productId.price,
+        };
+        console.log("Dữ liệu chi tiết đơn hàng:", orderDetailsData);
+
+        await axios.post('http://localhost:4001/api/orderDetails/create', orderDetailsData);
+      }
+
+      alert('Đặt hàng thành công!');
+    } catch (error) {
+      console.error('Lỗi khi tạo đơn hàng:', error);
+      if (error.response) {
+        alert(`Lỗi: ${error.response.data.message || 'Có lỗi xảy ra, vui lòng thử lại!'}`);
+
+      } else {
+        alert('Đặt hàng không thành công, vui lòng kiểm tra kết nối.');
+      }
+    }
+  };
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
   return (
     <div className="payment-container">
       <div className="address-section">
         <h3>Địa chỉ nhận hàng</h3>
+<<<<<<< HEAD
         <form className="address-form" onSubmit={e => e.preventDefault()}>
           <input type="text" placeholder="Họ và tên" value={shippingInfo.name} onChange={(e) => setShippingInfo({ ...shippingInfo, name: e.target.value })} required />
           <input type="tel" placeholder="Số điện thoại" value={shippingInfo.phone} onChange={(e) => setShippingInfo({ ...shippingInfo, phone: e.target.value })} required />
           <input type="text" placeholder="Tỉnh / Thành phố" value={shippingInfo.province} onChange={(e) => setShippingInfo({ ...shippingInfo, province: e.target.value })} required />
           <input type="text" placeholder="Địa chỉ chi tiết" value={shippingInfo.address} onChange={(e) => setShippingInfo({ ...shippingInfo, address: e.target.value })} required />
+=======
+        <form className="address-form">
+          <input
+            type="text"
+            placeholder="Họ và tên"
+            name="name"
+            value={shippingInfo.name}
+            onChange={(e) => setShippingInfo({ ...shippingInfo, name: e.target.value })}
+            required
+          />
+          <input
+            type="number"
+            placeholder="Phone"
+            name="phone"
+            value={shippingInfo.phone}
+            onChange={(e) => setShippingInfo({ ...shippingInfo, phone: e.target.value })}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Tỉnh / Thành phố"
+            name="province"
+            value={shippingInfo.province}
+            onChange={(e) => setShippingInfo({ ...shippingInfo, province: e.target.value })}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Địa chỉ chi tiết"
+            name="address"
+            value={shippingInfo.address}
+            onChange={(e) => setShippingInfo({ ...shippingInfo, address: e.target.value })}
+            required
+          />
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
         </form>
       </div>
 
       <div className="payment-method-section">
         <h3>Phương thức thanh toán</h3>
         <label>
+<<<<<<< HEAD
           <input type="radio" name="paymentMethod" value="cod" onChange={(e) => setPaymentMethod(e.target.value)} />
+=======
+          <input
+            type="radio"
+            name="paymentMethod"
+            value="cod"
+            onChange={(e) => setPaymentMethod(e.target.value)}
+          />
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
           Thanh toán khi nhận hàng (COD)
         </label>
       </div>
 
       <div className="transport-method">
+<<<<<<< HEAD
         <h3>Chọn đơn vị vận chuyển</h3>
         <label>
           <input type="radio" name="transportMethod" value="GHN" onChange={handleTransportChange} />
@@ -184,6 +328,34 @@ export const Order = () => {
         <label>
           <input type="radio" name="transportMethod" value="ViettelPost" onChange={handleTransportChange} />
           Viettel Post: 30.000 đ
+=======
+        <label>
+          <input
+            type="radio"
+            name="transportMethod"
+            value="GHN"
+            onChange={handleTransportChange}
+          />
+          GHN: 35000 Đ
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="transportMethod"
+            value="GHTK"
+            onChange={handleTransportChange}
+          />
+          GHTK: 30000 Đ
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="transportMethod"
+            value="ViettelPost"
+            onChange={handleTransportChange}
+          />
+          Viettel Post: 25000 Đ
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
         </label>
       </div>
 
@@ -192,7 +364,11 @@ export const Order = () => {
         {loading ? (
           <p>Đang tải...</p>
         ) : cartItems.length === 0 ? (
+<<<<<<< HEAD
           <p>Không có sản phẩm.</p>
+=======
+          <p>Giỏ hàng trống</p>
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
         ) : (
           cartItems.map((item) => (
             <div className="summary-item" key={item._id}>
@@ -210,9 +386,13 @@ export const Order = () => {
       <div className="payment-summary">
         <h3>Tổng thanh toán</h3>
         <p>{totalAmount.toLocaleString()} đ</p>
+<<<<<<< HEAD
         <button className="btn-confirm" onClick={handleOrderSubmit} disabled={loading}>
           Đặt hàng
         </button>
+=======
+        <button className="btn-confirm" onClick={handleOrderSubmit}>Đặt hàng</button>
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
       </div>
     </div>
   );

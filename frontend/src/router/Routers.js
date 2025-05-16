@@ -18,6 +18,7 @@ import { ProductDetails } from '../components/ProductDetails/ProductDetails';
 import OrderDetail from '../components/OrderDetail/OrderDetail';
 import { CustomerProfile } from '../components/Profile/CustomerProfile';
 import { SellerShop } from '../components/Seller/SellerShop';
+<<<<<<< HEAD
 import { ShopPages } from '../components/Seller/ShopPages';
 import { SellerForm } from '../components/Seller/SellerForm';
 import { OrderSeller } from '../components/Order/OrderSeller';
@@ -30,6 +31,9 @@ import { OrderAdmin } from '../components/Admin/OrderAdmin';
 import { ProductAdmin } from '../components/Admin/ProductAdmin';
 
 
+=======
+import {ShopPages } from '../components/Seller/ShopPages';
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
 
 const Routers = () => {
   return (
@@ -37,6 +41,7 @@ const Routers = () => {
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/home" element={<><Header /><Home /></>} />
+<<<<<<< HEAD
         <Route path="/registerAdmin" element={<RegisterAdmin />} />
         <Route path="/loginAdmin" element={<LoginAdmin />} />
         <Route path="/pageAdmin" element={<PageAdmin />} >
@@ -47,6 +52,8 @@ const Routers = () => {
 
         </Route>
 
+=======
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/seller/register" element={<SellerRegister />} />
@@ -54,12 +61,17 @@ const Routers = () => {
         <Route path="/product/:category" element={<><Header /><ProductCategory /></>} />
         <Route path="/product/:category/:id" element={<><Header /><ProductDetails /></>} />
         <Route path="/cart" element={<><Header /><Cart /></>} />
+<<<<<<< HEAD
         <Route path="/seller" element={<Seller />}>
           <Route path="addProducts" element={<AddProducts />} />
           <Route path="sellerForm" element={<SellerForm />} />
           <Route path="orderSeller" element={<OrderSeller />} />
 
         </Route>
+=======
+        <Route path="/seller" element={<Seller />} />
+        <Route path="/seller/addProducts" element={<><Header /><AddProducts /></>} />
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
         <Route path="/order" element={<><Header /><Order /></>} />
         <Route path="/myOrder" element={<><Header /><MyOrder /></>} />
         <Route path="/orders/:id" element={<><Header /><OrderDetail /></>} />
@@ -68,7 +80,11 @@ const Routers = () => {
         <Route path="/shop/:sellerId" element={<><Header /><ShopPages /></>} />
         <Route path="/support" element={<><Support /></>} />
 
+<<<<<<< HEAD
       </Routes >
+=======
+      </Routes>
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
       <Footer />
     </>
   );

@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const Order = mongoose.model('Order', require('../../order-service/models/OrderModel').schema);
 const Product = mongoose.model('Product', require('../../product-service/models/ProductsModels').schema);
+<<<<<<< HEAD
+=======
+const Payment = mongoose.model('Payment', require('../../payment-service/models/PaymentModel').schema);
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
 const orderDetailsSchema = new mongoose.Schema({
     orderId: {
         type: mongoose.Schema.Types.ObjectId,

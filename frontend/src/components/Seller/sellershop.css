@@ -10,13 +10,21 @@
   
   .shop-info-left {
     display: flex;
+<<<<<<< HEAD
     padding-top: 2rem;
+=======
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
     align-items: center;
   }
   
   .shop-avatar {
+<<<<<<< HEAD
     width: 60px;
     height: 60px;
+=======
+    width: 80px;
+    height: 80px;
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
     border-radius: 50%;
     object-fit: cover;
     margin-right: 20px;
@@ -60,7 +68,11 @@
   }
   
   .shop-info-right {
+<<<<<<< HEAD
      margin-top: 1.6rem;
+=======
+     margin-top: 1.2rem;
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
 
   }
   
@@ -71,7 +83,10 @@
   .stat-title {
     font-size: 0.9rem;
     color: #888;
+<<<<<<< HEAD
     margin-top: 0.8rem;
+=======
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
     margin-left: 4rem;
     padding: 0.2rem 0;
   }

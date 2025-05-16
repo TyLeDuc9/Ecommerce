@@ -53,7 +53,11 @@
 
 .register form {
     max-width: 400px;
+<<<<<<< HEAD
     height: 70vh;
+=======
+    height: 65vh;
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
     margin: 3rem auto;
     background-color: #fff;
     border-radius: 8px;

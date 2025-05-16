@@ -19,10 +19,17 @@
     padding: 0.5rem 0;
     color: red;
 }
+<<<<<<< HEAD
 /* .shop__category ul{
     display: flex;
     margin: 1rem 2rem;
 } */
+=======
+.shop__category ul{
+    display: flex;
+    margin: 1rem 2rem;
+}
+>>>>>>> d51ceae8a306884018891f95347972e7100fc2e6
 .shop__category ul li{
     padding: 0.3rem 0;
 
